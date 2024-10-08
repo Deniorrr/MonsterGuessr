@@ -9,3 +9,28 @@
   width: 500px;
   overflow: scroll;
 }
+
+.leaflet-container {
+  height: 800px;
+  width: 1400px;
+}
+
+.right {
+  border: 1px solid black;
+  height: 100vh;
+  position: fixed;
+  width: 400px;
+  top: 0;
+  right: 0;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-size: 30px;
+}
+
+.pointer {
+  opacity: 0.5;
+}
