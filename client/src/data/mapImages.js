@@ -11,10 +11,12 @@ const maps = {
     ancient_forest: {
       ratio: { height: 9, width: 16 },
       maps: [af1, af2, af3],
+      minZoom: 7,
     },
     wildspire_waste: {
       ratio: { height: 9.79, width: 11.03 },
       maps: [ww1, ww2, ww3],
+      minZoom: 7,
     },
     coral_highlands: {
       ratio: { height: 9.79, width: 11.03 },
