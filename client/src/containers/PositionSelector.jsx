@@ -14,10 +14,12 @@ function PositionSelector() {
   const [markerPosition, setMarkerPosition] = useState(null);
   const [solutionPosition, setSolutionPosition] = useState(null);
   const [polylineCoords, setPolylineCoords] = useState([]);
-  const [higherLayer, setHigherLayer] = useState(1);
   const [selectedLayer, setSelectedLayer] = useState(
-    maps.MHW.wildspire_waste.maps[0]
+    maps.MHW.ancient_forest.maps[0]
   );
+  const [selectedRegion, setSelectedRegion] = useState(maps.MHW.ancient_forest);
+  const [layerIndex, setLayerIndex] = useState(0);
+  const [layerAmount, setLayerAmount] = useState(3);
   const [solution, setSolution] = useState({
     lat: 7.16430194039867,
     lng: 7.800292968750001,
@@ -86,27 +88,33 @@ function PositionSelector() {
     setResult(`The distance is ${distance}`);
   };
 
-  const switchLayers = () => {
-    setHigherLayer(!higherLayer);
+  const switchLayers = (index) => {
+    setLayerIndex(index);
+    setSelectedLayer(selectedRegion.maps[index]);
+  };
+
+  const generateLayersNavigation = () => {
+    return (
+      <div>
+        {Array.from({ length: layerAmount }, (_, index) => (
+          <button key={index} onClick={() => switchLayers(index)}>
+            {index + 1}
+          </button>
+        ))}
+      </div>
+    );
   };
 
   const switchMaps = (region) => {
     console.log(region);
+    setSelectedRegion(region);
     setSelectedLayer(region.maps[0]);
+    setLayerAmount(region.maps.length);
     setBounds([
       [0, 0],
       [region.ratio.height, region.ratio.width],
     ]);
     setCenter([region.ratio.height / 2, region.ratio.width / 2]);
-    // setSelectedLayer(maps.MHW.ancient_forest.maps[0]);
-    // setBounds([
-    //   [0, 0],
-    //   [
-    //     maps.MHW.ancient_forest.ratio.height,
-    //     maps.MHW.ancient_forest.ratio.width,
-    //   ],
-    // ]);
-    //setPolylineCoords([]);
   };
   return (
     <div>
@@ -132,7 +140,7 @@ function PositionSelector() {
       <div className="right">
         <p>Where Gold Rathian?</p>
         {generateMapsNavigation()}
-        <button onClick={switchMaps}>Switch maps</button>
+        {generateLayersNavigation()}
         <button
           disabled={markerPosition === null}
           onClick={() => {
