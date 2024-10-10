@@ -34,3 +34,12 @@ button {
 .pointer {
   opacity: 0.5;
 }
+
+figure {
+  border: 1px solid salmon;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}

@@ -6,9 +6,10 @@ import {
   useMapEvents,
   Polyline,
 } from "react-leaflet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import maps from "../data/mapImages";
+import screenshotsData from "../assets/screenshots/screenshotsData";
 
 function PositionSelector() {
   const [markerPosition, setMarkerPosition] = useState(null);
@@ -19,26 +20,17 @@ function PositionSelector() {
   );
   const [selectedRegion, setSelectedRegion] = useState(maps.MHW.ancient_forest);
   const [layerIndex, setLayerIndex] = useState(0);
-  const [layerAmount, setLayerAmount] = useState(3);
-  const [solution, setSolution] = useState({
-    lat: 7.16430194039867,
-    lng: 7.800292968750001,
-  });
-  const [bounds, setBounds] = useState([
+  const [question, setQuestion] = useState(null);
+  const bounds = [
     [0, 0], // Top-left corner
     //[9.79, 11.03], // Bottom-right corner
     [9, 16],
-  ]);
-  const [center, setCenter] = useState([4.5, 8]);
-  // const solution = {
-  //   lat: 7.16430194039867,
-  //   lng: 7.800292968750001,
-  // };
+  ];
   const [result, setResult] = useState("");
 
   const zoom_level = 7;
 
-  function LocationMarker() {
+  const LocationMarker = () => {
     useMapEvents({
       click(e) {
         console.log(e.latlng);
@@ -53,7 +45,38 @@ function PositionSelector() {
         </Popup>
       </Marker>
     );
-  }
+  };
+
+  useEffect(() => {
+    selectQuestion();
+  }, []);
+
+  const selectQuestion = () => {
+    const randomIndex = Math.floor(Math.random() * screenshotsData.length);
+    const question = screenshotsData[randomIndex];
+    setQuestion(question);
+  };
+
+  const resetMap = () => {
+    setMarkerPosition(null);
+    setSolutionPosition(null);
+    setPolylineCoords([]);
+    setResult("");
+    selectQuestion();
+  };
+
+  const renderQuestion = () => {
+    if (question == null) return null;
+    console.log(question);
+    return (
+      <figure>
+        <img
+          src={`/src/assets/screenshots/${question.screenName}`}
+          alt="question"
+        />
+      </figure>
+    );
+  };
 
   const generateMapsNavigation = () => {
     return (
@@ -63,7 +86,7 @@ function PositionSelector() {
           return (
             <div key={region}>
               <button onClick={() => switchMaps(regionData)}>
-                {region.replace("_", " ")}
+                {maps.MHW[region].name}
               </button>
               <div>
                 {regionData.maps.map((map, index) => {
@@ -78,6 +101,7 @@ function PositionSelector() {
   };
 
   const guess = () => {
+    const solution = question.location;
     setSolutionPosition(solution);
 
     const distance = Math.sqrt(
@@ -85,7 +109,13 @@ function PositionSelector() {
         Math.pow(markerPosition.lng - solution.lng, 2)
     );
     setPolylineCoords([markerPosition, solution]);
-    setResult(`The distance is ${distance}`);
+    let result = `The distance is ${distance}`;
+    result +=
+      layerIndex + 1 == question.layer ? "Correct Layer" : "Incorrect Layer";
+    console.log(selectedRegion.name, question.mapName);
+    result +=
+      selectedRegion.name == question.mapName ? "Correct Map" : "Incorrect Map";
+    setResult(result);
   };
 
   const switchLayers = (index) => {
@@ -96,7 +126,7 @@ function PositionSelector() {
   const generateLayersNavigation = () => {
     return (
       <div>
-        {Array.from({ length: layerAmount }, (_, index) => (
+        {Array.from({ length: selectedRegion.maps.length }, (_, index) => (
           <button key={index} onClick={() => switchLayers(index)}>
             {index + 1}
           </button>
@@ -106,20 +136,14 @@ function PositionSelector() {
   };
 
   const switchMaps = (region) => {
-    console.log(region);
     setSelectedRegion(region);
+    setLayerIndex(0);
     setSelectedLayer(region.maps[0]);
-    setLayerAmount(region.maps.length);
-    setBounds([
-      [0, 0],
-      [region.ratio.height, region.ratio.width],
-    ]);
-    setCenter([region.ratio.height / 2, region.ratio.width / 2]);
   };
   return (
     <div>
       <MapContainer
-        center={center}
+        center={[4.5, 8]}
         zoom={zoom_level}
         scrollWheelZoom={true}
         minZoom={7}
@@ -138,7 +162,7 @@ function PositionSelector() {
         )}
       </MapContainer>
       <div className="right">
-        <p>Where Gold Rathian?</p>
+        {renderQuestion()}
         {generateMapsNavigation()}
         {generateLayersNavigation()}
         <button
@@ -149,6 +173,8 @@ function PositionSelector() {
         >
           Guess
         </button>
+        <button onClick={() => resetMap()}>Next</button>
+
         <p>{result}</p>
       </div>
     </div>
