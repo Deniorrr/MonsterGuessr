@@ -1,7 +1,7 @@
-import PositionSelector from "./containers/PositionSelector";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./containers/Navbar";
+import GamePage from "./pages/GamePage";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
           <Routes>
             <Route index element={<Navbar />} />
             <Route path="about" element={<p>About</p>} />
-            <Route path="Game" element={<PositionSelector />} />
+            <Route path="Game" element={<GamePage />} />
             <Route path="*" element={<p>error 404</p>} />
           </Routes>
         </BrowserRouter>

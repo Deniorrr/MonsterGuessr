@@ -22,13 +22,13 @@
   width: 400px;
   top: 0;
   right: 0;
-  font-size: 30px;
+  font-size: 20px;
   display: flex;
   flex-direction: column;
 }
 
 button {
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .pointer {

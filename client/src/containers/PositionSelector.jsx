@@ -10,10 +10,16 @@ import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import maps from "../data/mapImages";
 import screenshotsData from "../assets/screenshots/screenshotsData";
+import PropTypes from "prop-types";
 
-function PositionSelector() {
+PositionSelector.propTypes = {
+  guessPosition: PropTypes.func.isRequired,
+};
+
+function PositionSelector(props) {
+  const guessPosition = props.guessPosition;
   const [markerPosition, setMarkerPosition] = useState(null);
-  const [solutionPosition, setSolutionPosition] = useState(null);
+  const [showSolution, setShowSolution] = useState(false);
   const [polylineCoords, setPolylineCoords] = useState([]);
   const [selectedLayer, setSelectedLayer] = useState(
     maps.MHW.ancient_forest.maps[0]
@@ -59,7 +65,7 @@ function PositionSelector() {
 
   const resetMap = () => {
     setMarkerPosition(null);
-    setSolutionPosition(null);
+    setShowSolution(false);
     setPolylineCoords([]);
     setResult("");
     selectQuestion();
@@ -67,7 +73,6 @@ function PositionSelector() {
 
   const renderQuestion = () => {
     if (question == null) return null;
-    console.log(question);
     return (
       <figure>
         <img
@@ -101,8 +106,15 @@ function PositionSelector() {
   };
 
   const guess = () => {
+    const selectedPosition = {
+      markerPosition,
+      region: selectedRegion.name,
+      layer: layerIndex + 1,
+    };
+    guessPosition(selectedPosition, question); //props
+    //showResult(); // local or child component
+
     const solution = question.location;
-    setSolutionPosition(solution);
 
     const distance = Math.sqrt(
       Math.pow(markerPosition.lat - solution.lat, 2) +
@@ -112,10 +124,10 @@ function PositionSelector() {
     let result = `The distance is ${distance}`;
     result +=
       layerIndex + 1 == question.layer ? "Correct Layer" : "Incorrect Layer";
-    console.log(selectedRegion.name, question.mapName);
     result +=
       selectedRegion.name == question.mapName ? "Correct Map" : "Incorrect Map";
     setResult(result);
+    setShowSolution(true);
   };
 
   const switchLayers = (index) => {
@@ -140,6 +152,14 @@ function PositionSelector() {
     setLayerIndex(0);
     setSelectedLayer(region.maps[0]);
   };
+
+  const renderSolution = () => {
+    return (
+      <Marker position={question.location} className="pointer">
+        <Popup>Gold Rathian</Popup>
+      </Marker>
+    );
+  };
   return (
     <div>
       <MapContainer
@@ -152,11 +172,7 @@ function PositionSelector() {
       >
         <ImageOverlay url={selectedLayer} bounds={bounds} />
         <LocationMarker />
-        {solutionPosition && (
-          <Marker position={solutionPosition} className="pointer">
-            <Popup>Gold Rathian</Popup>
-          </Marker>
-        )}
+        {showSolution && renderSolution()}
         {polylineCoords.length > 0 && (
           <Polyline positions={polylineCoords} color="blue" />
         )}
