@@ -32,6 +32,14 @@ const screenshotsData = [
     location: { lat: 7.395152907137248, lng: 10.777587890625002 },
   },
   {
+    id: 5,
+    screenName: "5.png",
+    gameName: "MHW",
+    mapName: "Wildspire Waste",
+    layer: 2,
+    location: { lat: 1.9222467160981036, lng: 2.2631835937500004 },
+  },
+  {
     id: 8,
     screenName: "8.png",
     gameName: "MHW",

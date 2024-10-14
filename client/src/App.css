@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #222;
+  color: #ccc;
+}
+
 .container {
   height: 500px;
   width: 500px;
@@ -29,14 +34,16 @@
 
 button {
   font-size: 20px;
+  background-color: #111;
+  color: #eee;
+  padding: 3px;
+  margin: 5px;
+  cursor: pointer;
 }
 
-.pointer {
-  opacity: 0.5;
-}
-
-figure {
-  border: 1px solid salmon;
+button:disabled {
+  background-color: #333;
+  cursor: auto;
 }
 
 img {
