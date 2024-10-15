@@ -18,10 +18,8 @@ function Navbar() {
           key={page}
           style={{ opacity: 0, animation: `fadeIn 0.4s forwards ${delay}` }}
         >
-          <Link to={`/${page}`} className="nav-link">
-            <ListItemText>
-              <Typography variant="h5">{pages[page]}</Typography>
-            </ListItemText>
+          <Link to={`/${page}`} className="serif_font">
+            {pages[page]}
           </Link>
         </ListItem>
       );

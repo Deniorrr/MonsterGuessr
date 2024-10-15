@@ -58,19 +58,24 @@ img {
 } */
 
 li {
-  background-image: linear-gradient(
-    90deg,
-    #000000aa 50%,
-    #00000055 75%,
-    #00000000
-  );
+  background-image: linear-gradient(90deg, #000000bb 60%, #00000000);
   margin: 15px 0;
   border-radius: 10px;
 }
 
 a {
-  color: white;
+  color: #fff;
   text-decoration: none;
+  font-size: 1.6rem;
+  padding: 0.5rem;
+}
+
+.serif_font {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.6rem;
 }
 
 @keyframes fadeIn {
