@@ -50,9 +50,9 @@ function GamePage() {
 
   return (
     <div className="game-container">
-      <Link to="/">
+      {/* <Link to="/">
         <button>BACK</button>
-      </Link>
+      </Link> */}
 
       {isGameOver ? (
         <h1>Game Over</h1>
@@ -64,7 +64,7 @@ function GamePage() {
         />
       )}
 
-      <GameScore score={score} />
+      {/* <GameScore score={score} /> */}
     </div>
   );
 }

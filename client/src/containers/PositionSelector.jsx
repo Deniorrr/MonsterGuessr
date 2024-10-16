@@ -12,6 +12,7 @@ import maps from "../data/mapImages";
 
 import GameNavbar from "./GameNavbar";
 import PropTypes from "prop-types";
+import { Grid } from "@mui/material";
 
 PositionSelector.propTypes = {
   guessPosition: PropTypes.func.isRequired,
@@ -103,32 +104,36 @@ function PositionSelector(props) {
     );
   };
   return (
-    <div>
-      <MapContainer
-        center={[4.5, 8]}
-        zoom={zoom_level}
-        scrollWheelZoom={true}
-        minZoom={7}
-        maxZoom={9}
-        maxBounds={bounds}
-      >
-        <ImageOverlay url={selectedLayer} bounds={bounds} />
-        <LocationMarker />
-        {showSolution && renderSolution()}
-        {polylineCoords.length > 0 && (
-          <Polyline positions={polylineCoords} color="blue" />
-        )}
-      </MapContainer>
-      <GameNavbar
-        guess={guess}
-        question={question}
-        selectedRegion={selectedRegion}
-        resetMap={resetMap}
-        switchMaps={switchMaps}
-        switchLayers={switchLayers}
-        markerPosition={markerPosition}
-      />
-    </div>
+    <Grid container style={{ height: "100%" }}>
+      <Grid row item xs={9}>
+        <MapContainer
+          center={[4.5, 8]}
+          zoom={zoom_level}
+          scrollWheelZoom={true}
+          minZoom={7}
+          maxZoom={9}
+          maxBounds={bounds}
+        >
+          <ImageOverlay url={selectedLayer} bounds={bounds} />
+          <LocationMarker />
+          {showSolution && renderSolution()}
+          {polylineCoords.length > 0 && (
+            <Polyline positions={polylineCoords} color="blue" />
+          )}
+        </MapContainer>
+      </Grid>
+      <Grid row item xs={3}>
+        <GameNavbar
+          guess={guess}
+          question={question}
+          selectedRegion={selectedRegion}
+          resetMap={resetMap}
+          switchMaps={switchMaps}
+          switchLayers={switchLayers}
+          markerPosition={markerPosition}
+        />
+      </Grid>
+    </Grid>
   );
 }
 

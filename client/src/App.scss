@@ -21,36 +21,31 @@ body {
   overflow: scroll;
 }
 
-.leaflet-container {
-  height: 800px;
-  width: 1400px;
-}
+// .right {
+//   border: 1px solid black;
+//   height: 100vh;
+//   position: fixed;
+//   width: 400px;
+//   top: 0;
+//   right: 0;
+//   font-size: 20px;
+//   display: flex;
+//   flex-direction: column;
+// }
 
-.right {
-  border: 1px solid black;
-  height: 100vh;
-  position: fixed;
-  width: 400px;
-  top: 0;
-  right: 0;
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
-}
+// button {
+//   font-size: 20px;
+//   background-color: #111;
+//   color: #eee;
+//   padding: 3px;
+//   margin: 5px;
+//   cursor: pointer;
+// }
 
-button {
-  font-size: 20px;
-  background-color: #111;
-  color: #eee;
-  padding: 3px;
-  margin: 5px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #333;
-  cursor: auto;
-}
+// button:disabled {
+//   background-color: #333;
+//   cursor: auto;
+// }
 
 .container-wrapper {
   img {
@@ -97,9 +92,19 @@ button:disabled {
 }
 
 .game-container {
+  height: 100vh;
+  .leaflet-container {
+    height: 100%;
+    background: #352c20 !important;
+  }
   img {
     width: 100%;
     height: auto;
+    cursor: pointer;
+  }
+  .backdrop-image {
+    height: 80vh;
+    width: auto;
   }
 }
 

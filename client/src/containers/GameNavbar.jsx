@@ -1,6 +1,18 @@
 import PropTypes from "prop-types";
 import maps from "../data/mapImages";
 import { useState } from "react";
+import { Backdrop } from "@mui/material";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button,
+  Slider,
+  Box,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 GameNavbar.propTypes = {
   guess: PropTypes.func.isRequired,
@@ -20,8 +32,19 @@ function GameNavbar(props) {
   const switchMaps = props.switchMaps;
   const switchLayers = props.switchLayers;
   const markerPosition = props.markerPosition;
+  const [layerIndex, setLayerIndex] = useState(0);
+  const [selectedRegionName, setSelectedRegionName] =
+    useState("ancient_forest");
 
   const [hasGuessed, setHasGuessed] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   const guessHandler = () => {
     setHasGuessed(true);
@@ -40,43 +63,84 @@ function GameNavbar(props) {
         <img
           src={`/src/assets/screenshots/${question.screenName}`}
           alt="question"
+          onClick={handleOpen}
         />
       </figure>
     );
   };
 
+  const handleChange = (event, newRegion) => {
+    console.log(newRegion);
+    console.log(selectedRegion.name);
+    if (newRegion !== null) {
+      const regionData = maps.MHW[newRegion];
+      switchMaps(regionData);
+      setSelectedRegionName(newRegion);
+    }
+  };
+
   const generateMapsNavigation = () => {
     return (
-      <div>
-        {Object.keys(maps.MHW).map((region) => {
-          const regionData = maps.MHW[region];
-          return (
-            <div key={region}>
-              <button onClick={() => switchMaps(regionData)}>
-                {maps.MHW[region].name}
-              </button>
-              {/* <div>
-                {regionData.maps.map((map, index) => {
-                  return <p key={index}>Layer {index + 1}</p>;
-                })}
-              </div> */}
-            </div>
-          );
-        })}
-      </div>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          MH World
+        </AccordionSummary>
+        <AccordionDetails>
+          <ToggleButtonGroup
+            orientation="vertical"
+            value={selectedRegionName}
+            exclusive
+            onChange={handleChange}
+          >
+            {/* <ToggleButton value="list" aria-label="list">
+        <ViewListIcon />
+      </ToggleButton>
+      
+        <ViewModuleIcon />
+      </ToggleButton>
+      <ToggleButton value="quilt" aria-label="quilt">
+        <ViewQuiltIcon />
+       */}
+            {Object.keys(maps.MHW).map((region) => {
+              //const regionData = maps.MHW[region];
+              return (
+                <ToggleButton key={region} value={region} aria-label={region}>
+                  {maps.MHW[region].name}
+                </ToggleButton>
+              );
+            })}
+          </ToggleButtonGroup>
+        </AccordionDetails>
+      </Accordion>
     );
   };
 
   const generateLayersNavigation = () => {
     return (
-      <div>
-        {Array.from({ length: selectedRegion.maps.length }, (_, index) => (
-          <button key={index} onClick={() => switchLayers(index)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
+      <Slider
+        aria-label="Layer"
+        defaultValue={1}
+        valueLabelDisplay="auto"
+        step={1}
+        marks
+        min={1}
+        max={selectedRegion.maps.length}
+        onChange={(e, value) => switchLayers(value - 1)}
+      />
     );
+    // return (
+    //   <div>
+    //     {Array.from({ length: selectedRegion.maps.length }, (_, index) => (
+    //       <button key={index} onClick={() => switchLayers(index)}>
+    //         {index + 1}
+    //       </button>
+    //     ))}
+    //   </div>
+    // );
   };
 
   return (
@@ -84,22 +148,38 @@ function GameNavbar(props) {
       {renderQuestion()}
 
       {hasGuessed ? (
-        <button onClick={() => nextHandler()}>Next</button>
+        <Button onClick={() => nextHandler()}>Next</Button>
       ) : (
-        <button
+        <Button
           onClick={() => {
             guessHandler();
           }}
           disabled={markerPosition == null}
         >
           Guess
-        </button>
+        </Button>
       )}
 
       <h3>Region</h3>
       {generateMapsNavigation()}
       <h3>Layer</h3>
-      {generateLayersNavigation()}
+      <Box>{generateLayersNavigation()}</Box>
+
+      <Backdrop
+        sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
+        open={open}
+        onClick={handleClose}
+      >
+        {question !== null ? (
+          <img
+            className="backdrop-image"
+            src={`/src/assets/screenshots/${question.screenName}`}
+            alt="question"
+          />
+        ) : (
+          ""
+        )}
+      </Backdrop>
     </nav>
   );
 }
