@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { List, ListItem, ListItemText, Typography } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 
 function Navbar() {
   const pages = {

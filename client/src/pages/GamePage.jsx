@@ -42,16 +42,6 @@ function GamePage() {
         Math.pow(selectedPosition.markerPosition.lng - answer.location.lng, 2)
     );
     setScore([...score, distance]);
-    // let result = `The distance is ${distance}`;
-    // result +=
-    //   selectedPosition.layer == answer.layer
-    //     ? "Correct Layer"
-    //     : "Incorrect Layer";
-    // result +=
-    //   selectedPosition.region == answer.mapName
-    //     ? "Correct Map"
-    //     : "Incorrect Map";
-    // console.log(result);
   };
 
   const gameOver = () => {
@@ -59,7 +49,7 @@ function GamePage() {
   };
 
   return (
-    <div>
+    <div className="game-container">
       <Link to="/">
         <button>BACK</button>
       </Link>
