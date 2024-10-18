@@ -7,7 +7,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Button,
-  Slider,
+  ButtonGroup,
   Box,
   ToggleButton,
   ToggleButtonGroup,
@@ -70,6 +70,7 @@ function GameNavbar(props) {
   };
 
   const handleChange = (event, newRegion) => {
+    setLayerIndex(0);
     console.log(newRegion);
     console.log(selectedRegion.name);
     if (newRegion !== null) {
@@ -77,6 +78,11 @@ function GameNavbar(props) {
       switchMaps(regionData);
       setSelectedRegionName(newRegion);
     }
+  };
+
+  const handleSwitchLayers = (layerIndex) => {
+    setLayerIndex(layerIndex);
+    switchLayers(layerIndex);
   };
 
   const generateMapsNavigation = () => {
@@ -89,22 +95,18 @@ function GameNavbar(props) {
         >
           MH World
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <ToggleButtonGroup
             orientation="vertical"
             value={selectedRegionName}
             exclusive
             onChange={handleChange}
           >
-            {/* <ToggleButton value="list" aria-label="list">
-        <ViewListIcon />
-      </ToggleButton>
-      
-        <ViewModuleIcon />
-      </ToggleButton>
-      <ToggleButton value="quilt" aria-label="quilt">
-        <ViewQuiltIcon />
-       */}
             {Object.keys(maps.MHW).map((region) => {
               //const regionData = maps.MHW[region];
               return (
@@ -121,36 +123,36 @@ function GameNavbar(props) {
 
   const generateLayersNavigation = () => {
     return (
-      <Slider
-        aria-label="Layer"
-        defaultValue={1}
-        valueLabelDisplay="auto"
-        step={1}
-        marks
-        min={1}
-        max={selectedRegion.maps.length}
-        onChange={(e, value) => switchLayers(value - 1)}
-      />
+      <ButtonGroup variant="outlined" aria-label="Basic button group">
+        {Array.from({ length: selectedRegion.maps.length }, (_, index) => (
+          <Button
+            key={index}
+            onClick={() => handleSwitchLayers(index)}
+            variant={layerIndex === index ? "contained" : "outlined"}
+          >
+            {index + 1}
+          </Button>
+        ))}
+      </ButtonGroup>
     );
-    // return (
-    //   <div>
-    //     {Array.from({ length: selectedRegion.maps.length }, (_, index) => (
-    //       <button key={index} onClick={() => switchLayers(index)}>
-    //         {index + 1}
-    //       </button>
-    //     ))}
-    //   </div>
-    // );
   };
 
   return (
-    <nav className="right">
+    <Box component={"nav"} className="right">
       {renderQuestion()}
 
       {hasGuessed ? (
-        <Button onClick={() => nextHandler()}>Next</Button>
+        <Button
+          variant="contained"
+          style={{ width: "100%" }}
+          onClick={() => nextHandler()}
+        >
+          Next
+        </Button>
       ) : (
         <Button
+          variant="contained"
+          style={{ width: "100%" }}
           onClick={() => {
             guessHandler();
           }}
@@ -163,7 +165,9 @@ function GameNavbar(props) {
       <h3>Region</h3>
       {generateMapsNavigation()}
       <h3>Layer</h3>
-      <Box>{generateLayersNavigation()}</Box>
+      <Box display={"flex"} justifyContent={"center"}>
+        {generateLayersNavigation()}
+      </Box>
 
       <Backdrop
         sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
@@ -180,7 +184,7 @@ function GameNavbar(props) {
           ""
         )}
       </Backdrop>
-    </nav>
+    </Box>
   );
 }
 
