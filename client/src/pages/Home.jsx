@@ -1,13 +1,10 @@
 import { Container, Grid, Box, Typography, Paper } from "@mui/material";
 import Navbar from "../containers/Navbar";
 import BackgroundImage from "../assets/background_dark.jpg";
-import { styled } from "@mui/material/styles";
 
 import logo from "../assets/logo.png";
 
 function Home() {
-  //const DarkPaper = styled(Paper)(({ theme }) => ());
-
   return (
     <Box
       className="container-wrapper"
@@ -42,8 +39,8 @@ function Home() {
                 }}
               >
                 <h3>Monster Hunter Guessr</h3>
-                <figure className="logo">
-                  <img src={logo} alt="logo"></img>
+                <figure className="logo-wrapper">
+                  <img src={logo} alt="logo" className="logo"></img>
                 </figure>
                 <Typography variant={"body1"} padding={3} paddingTop={0}>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit

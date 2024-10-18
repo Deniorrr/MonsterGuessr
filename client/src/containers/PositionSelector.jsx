@@ -104,7 +104,7 @@ function PositionSelector(props) {
     );
   };
   return (
-    <Grid container style={{ height: "100%" }}>
+    <Grid container style={{ height: "100%", zIndex: 1 }}>
       <Grid row item xs={9}>
         <MapContainer
           center={[4.5, 8]}
@@ -122,7 +122,7 @@ function PositionSelector(props) {
           )}
         </MapContainer>
       </Grid>
-      <Grid row item xs={3}>
+      <Grid row item xs={3} className="aside-bar">
         <GameNavbar
           guess={guess}
           question={question}

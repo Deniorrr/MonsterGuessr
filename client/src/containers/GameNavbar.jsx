@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import maps from "../data/mapImages";
 import { useState } from "react";
-import { Backdrop } from "@mui/material";
+import { Backdrop, Typography } from "@mui/material";
 import {
   Accordion,
   AccordionSummary,
@@ -9,8 +9,6 @@ import {
   Button,
   ButtonGroup,
   Box,
-  ToggleButton,
-  ToggleButtonGroup,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -32,18 +30,18 @@ function GameNavbar(props) {
   const switchMaps = props.switchMaps;
   const switchLayers = props.switchLayers;
   const markerPosition = props.markerPosition;
+
   const [layerIndex, setLayerIndex] = useState(0);
   const [selectedRegionName, setSelectedRegionName] =
     useState("ancient_forest");
-
   const [hasGuessed, setHasGuessed] = useState(false);
+  const [isBigImageOpen, setIsBigImageOpen] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseBigImage = () => {
+    setIsBigImageOpen(false);
   };
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenBigImage = () => {
+    setIsBigImageOpen(true);
   };
 
   const guessHandler = () => {
@@ -63,13 +61,13 @@ function GameNavbar(props) {
         <img
           src={`/src/assets/screenshots/${question.screenName}`}
           alt="question"
-          onClick={handleOpen}
+          onClick={handleOpenBigImage}
         />
       </figure>
     );
   };
 
-  const handleChange = (event, newRegion) => {
+  const handleChange = (newRegion) => {
     setLayerIndex(0);
     console.log(newRegion);
     console.log(selectedRegion.name);
@@ -93,7 +91,7 @@ function GameNavbar(props) {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          MH World
+          <Typography fontWeight={"bold"}>MH World</Typography>
         </AccordionSummary>
         <AccordionDetails
           style={{
@@ -101,21 +99,22 @@ function GameNavbar(props) {
             justifyContent: "center",
           }}
         >
-          <ToggleButtonGroup
-            orientation="vertical"
-            value={selectedRegionName}
-            exclusive
-            onChange={handleChange}
-          >
+          <ButtonGroup orientation="vertical">
             {Object.keys(maps.MHW).map((region) => {
               //const regionData = maps.MHW[region];
               return (
-                <ToggleButton key={region} value={region} aria-label={region}>
+                <Button
+                  key={region}
+                  onClick={() => handleChange(region)}
+                  variant={
+                    selectedRegionName === region ? "contained" : "outlined"
+                  }
+                >
                   {maps.MHW[region].name}
-                </ToggleButton>
+                </Button>
               );
             })}
-          </ToggleButtonGroup>
+          </ButtonGroup>
         </AccordionDetails>
       </Accordion>
     );
@@ -123,7 +122,7 @@ function GameNavbar(props) {
 
   const generateLayersNavigation = () => {
     return (
-      <ButtonGroup variant="outlined" aria-label="Basic button group">
+      <ButtonGroup variant="outlined">
         {Array.from({ length: selectedRegion.maps.length }, (_, index) => (
           <Button
             key={index}
@@ -138,7 +137,7 @@ function GameNavbar(props) {
   };
 
   return (
-    <Box component={"nav"} className="right">
+    <Box component={"nav"}>
       {renderQuestion()}
 
       {hasGuessed ? (
@@ -158,21 +157,35 @@ function GameNavbar(props) {
           }}
           disabled={markerPosition == null}
         >
-          Guess
+          {markerPosition == null ? "Select position" : "Guess"}
         </Button>
       )}
 
-      <h3>Region</h3>
+      <Typography
+        variant="h5"
+        margin={"10px"}
+        marginTop={"2em"}
+        textAlign={"center"}
+      >
+        Region
+      </Typography>
       {generateMapsNavigation()}
-      <h3>Layer</h3>
+      <Typography
+        variant="h5"
+        margin={"10px"}
+        marginTop={"2em"}
+        textAlign={"center"}
+      >
+        Layer
+      </Typography>
       <Box display={"flex"} justifyContent={"center"}>
         {generateLayersNavigation()}
       </Box>
 
       <Backdrop
         sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
-        open={open}
-        onClick={handleClose}
+        open={isBigImageOpen}
+        onClick={handleCloseBigImage}
       >
         {question !== null ? (
           <img
