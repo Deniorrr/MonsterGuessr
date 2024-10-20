@@ -31,6 +31,7 @@ function PositionSelector(props) {
   );
   const [selectedRegion, setSelectedRegion] = useState(maps.MHW.ancient_forest);
   const [layerIndex, setLayerIndex] = useState(0);
+  const [answerConfirmed, setAnswerConfirmed] = useState(false);
   //const [question, setQuestion] = useState(null);
   const question = props.question;
   const bounds = [
@@ -45,6 +46,7 @@ function PositionSelector(props) {
     useMapEvents({
       click(e) {
         console.log(e.latlng);
+        if (answerConfirmed) return;
         setMarkerPosition(e.latlng);
       },
     });
@@ -59,6 +61,7 @@ function PositionSelector(props) {
   };
 
   const resetMap = () => {
+    setAnswerConfirmed(false);
     setMarkerPosition(null);
     setShowSolution(false);
     setPolylineCoords([]);
@@ -67,6 +70,7 @@ function PositionSelector(props) {
   };
 
   const guess = () => {
+    setAnswerConfirmed(true);
     const selectedPosition = {
       markerPosition,
       region: selectedRegion.name,

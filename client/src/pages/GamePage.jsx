@@ -64,7 +64,11 @@ function GamePage() {
         />
       )}
 
-      {/* <GameScore score={score} /> */}
+      <GameScore
+        score={score}
+        questionAmount={QUESTION_AMOUNT}
+        questionIndex={questionIndex}
+      />
     </div>
   );
 }
