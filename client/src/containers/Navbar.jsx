@@ -16,7 +16,7 @@ function Navbar() {
       return (
         <ListItem
           key={page}
-          style={{ opacity: 0, animation: `fadeIn 0.4s forwards ${delay}` }}
+          style={{ opacity: 0, animation: `fadeInLeft 0.4s forwards ${delay}` }}
         >
           <Link to={`/${page}`} className="serif_font">
             {pages[page]}

@@ -12,7 +12,7 @@ import maps from "../data/mapImages";
 
 import GameNavbar from "./GameNavbar";
 import PropTypes from "prop-types";
-import { Grid } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 
 PositionSelector.propTypes = {
   guessPosition: PropTypes.func.isRequired,
@@ -32,6 +32,7 @@ function PositionSelector(props) {
   const [selectedRegion, setSelectedRegion] = useState(maps.MHW.ancient_forest);
   const [layerIndex, setLayerIndex] = useState(0);
   const [answerConfirmed, setAnswerConfirmed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   //const [question, setQuestion] = useState(null);
   const question = props.question;
   const bounds = [
@@ -90,14 +91,20 @@ function PositionSelector(props) {
   };
 
   const switchMaps = (region) => {
+    setIsLoading(true);
     setSelectedRegion(region);
     setLayerIndex(0);
     setSelectedLayer(region.maps[0]);
   };
 
   const switchLayers = (index) => {
+    setIsLoading(true);
     setLayerIndex(index);
     setSelectedLayer(selectedRegion.maps[index]);
+  };
+
+  const handleMapLoad = () => {
+    setIsLoading(false);
   };
 
   const renderSolution = () => {
@@ -110,6 +117,11 @@ function PositionSelector(props) {
   return (
     <Grid container style={{ height: "100%", zIndex: 1 }}>
       <Grid row item xs={9}>
+        {isLoading ? (
+          <Box className="loading-text">
+            <Typography>Loading...</Typography>
+          </Box>
+        ) : null}
         <MapContainer
           center={[4.5, 8]}
           zoom={zoom_level}
@@ -118,7 +130,11 @@ function PositionSelector(props) {
           maxZoom={9}
           maxBounds={bounds}
         >
-          <ImageOverlay url={selectedLayer} bounds={bounds} />
+          <ImageOverlay
+            url={selectedLayer}
+            bounds={bounds}
+            eventHandlers={{ load: handleMapLoad }}
+          />
           <LocationMarker />
           {showSolution && renderSolution()}
           {polylineCoords.length > 0 && (

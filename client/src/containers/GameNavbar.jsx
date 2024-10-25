@@ -36,6 +36,7 @@ function GameNavbar(props) {
     useState("ancient_forest");
   const [hasGuessed, setHasGuessed] = useState(false);
   const [isBigImageOpen, setIsBigImageOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCloseBigImage = () => {
     setIsBigImageOpen(false);
@@ -50,18 +51,32 @@ function GameNavbar(props) {
   };
 
   const nextHandler = () => {
+    setIsLoading(true);
     setHasGuessed(false);
     resetMap();
   };
 
+  const handleQuestionLoad = () => {
+    setIsLoading(false);
+  };
+
   const renderQuestion = () => {
     if (question == null) return null;
+
     return (
       <figure>
+        {isLoading ? (
+          <Box className="loading-text">
+            <Typography>Loading...</Typography>
+          </Box>
+        ) : null}
+
         <img
           src={`/src/assets/screenshots/${question.screenName}`}
           alt="question"
+          style={{ width: "100%" }}
           onClick={handleOpenBigImage}
+          onLoad={handleQuestionLoad}
         />
       </figure>
     );
@@ -69,8 +84,6 @@ function GameNavbar(props) {
 
   const handleChange = (newRegion) => {
     setLayerIndex(0);
-    console.log(newRegion);
-    console.log(selectedRegion.name);
     if (newRegion !== null) {
       const regionData = maps.MHW[newRegion];
       switchMaps(regionData);
@@ -104,6 +117,7 @@ function GameNavbar(props) {
               //const regionData = maps.MHW[region];
               return (
                 <Button
+                  disabled={hasGuessed}
                   key={region}
                   onClick={() => handleChange(region)}
                   variant={
@@ -125,6 +139,7 @@ function GameNavbar(props) {
       <ButtonGroup variant="outlined">
         {Array.from({ length: selectedRegion.maps.length }, (_, index) => (
           <Button
+            disabled={hasGuessed}
             key={index}
             onClick={() => handleSwitchLayers(index)}
             variant={layerIndex === index ? "contained" : "outlined"}

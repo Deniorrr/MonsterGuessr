@@ -50,7 +50,10 @@ body {
 
   h3 {
     text-align: center;
-    font-family: "mh_font";
+    // font-family: "mh_font";
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
     font-size: 2.5rem;
     text-transform: uppercase;
   }
@@ -58,7 +61,7 @@ body {
   .logo-wrapper {
     margin: 20px 0;
     img {
-      width: 10em;
+      width: 7em;
       height: auto;
     }
   }
@@ -78,10 +81,14 @@ body {
       height: 100vh;
       overflow-x: hidden;
       overflow-y: auto;
-      img {
-        width: 100%;
-        height: auto;
-        cursor: pointer;
+
+      figure {
+        position: relative;
+        img {
+          width: 100%;
+          height: auto;
+          cursor: pointer;
+        }
       }
       .backdrop-image {
         height: 80vh;
@@ -111,7 +118,27 @@ body {
   }
 }
 
+.loading-text {
+  background-color: #000000dd;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s;
+}
+
 @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInLeft {
   from {
     opacity: 0;
     transform: translateX(-50px);

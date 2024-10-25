@@ -30,11 +30,6 @@ function GameScore(props) {
           Score: {score.reduce((acc, curr) => acc + curr, 0)} /{" "}
           {score.length * 500}
         </Typography>
-        {/* <ul>
-          {props.score.map((score, index) => {
-            return <li key={index}>{score}</li>;
-          })}
-        </ul> */}
       </Box>
       <Backdrop
         style={{
@@ -50,7 +45,7 @@ function GameScore(props) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: "20px",
+            padding: "30px",
             backgroundColor: "rgba(0, 0, 0, 0.8)",
             border: "2px solid #2e7e0b",
             boxShadow: "0px 2px 15px 0px #2e7e0b",
@@ -59,7 +54,12 @@ function GameScore(props) {
           <Typography variant="h4" textAlign={"center"} marginBottom={2}>
             Scoreboard
           </Typography>
-          <Grid container>
+          <Grid
+            container
+            style={{
+              borderBottom: "1px solid #2e7e0b",
+            }}
+          >
             <Grid item xs={6}>
               <Typography variant="h6" textAlign={"center"}>
                 Round
@@ -93,7 +93,23 @@ function GameScore(props) {
               </Grid>
             );
           })}
-
+          <Grid
+            container
+            style={{
+              borderTop: "1px solid #2e7e0b",
+            }}
+          >
+            <Grid item xs={6}>
+              <Typography variant="h6" textAlign={"center"}>
+                TOTAL
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6" textAlign={"center"}>
+                {score.reduce((acc, curr) => acc + curr, 0).toFixed(3)}
+              </Typography>
+            </Grid>
+          </Grid>
           {/* Total Score: {score.reduce((acc, curr) => acc + curr, 0)} /{" "}
             {score.length * 500}
           <ul>

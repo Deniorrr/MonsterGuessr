@@ -50,10 +50,6 @@ function GamePage() {
 
   return (
     <div className="game-container">
-      {/* <Link to="/">
-        <button>BACK</button>
-      </Link> */}
-
       {isGameOver ? (
         <h1>Game Over</h1>
       ) : (

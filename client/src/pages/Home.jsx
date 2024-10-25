@@ -38,25 +38,32 @@ function Home() {
                   boxShadow: "0px 2px 15px 0px #2e7e0b",
                 }}
               >
-                <h3>Monster Hunter Guessr</h3>
-                <figure className="logo-wrapper">
-                  <img src={logo} alt="logo" className="logo"></img>
-                </figure>
+                <Box
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <h3>Monster Hunter Guessr</h3>
+                  <figure className="logo-wrapper">
+                    <img src={logo} alt="logo" className="logo"></img>
+                  </figure>
+                </Box>
                 <Typography variant={"body1"} padding={3} paddingTop={0}>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
-                  laudantium nulla molestias ab quibusdam voluptate voluptatem
-                  corporis ipsa quaerat sequi? Vel, doloribus architecto? Dolor
-                  unde neque quo soluta, consequuntur autem fugiat odit
-                  molestiae saepe beatae eos ut? Ex, ratione sunt deserunt dicta
-                  reprehenderit voluptatum odit provident, adipisci, sed sint a
-                  autem quas? Sed inventore ex, soluta provident consequatur
-                  explicabo totam qui impedit! Odit obcaecati corrupti minima
-                  hic aspernatur! Rerum exercitationem minus magni, nobis
-                  impedit dolorum dignissimos consequuntur sapiente officia
-                  dolore rem? Temporibus harum, voluptatibus repudiandae,
-                  aliquam sint doloremque perferendis tempora, inventore
-                  repellendus quaerat nemo blanditiis reiciendis earum
-                  cupiditate numquam maxime!
+                  Welcome to Monster Hunter Guessr! Learn about the world of
+                  Monster Hunter by guessing the location of the screenshot. The
+                  closer your guess, the more points you earn. Good luck!
+                </Typography>
+                <Typography variant={"body1"} padding={3} paddingTop={0}>
+                  Currently the game is in the early stages of development and
+                  uses only screenshots from Monster Hunter World, but more
+                  Monster Hunter games will be added in the future.
+                </Typography>
+                <Typography variant={"body1"} padding={3} paddingTop={0}>
+                  This is a fan made project and is not affiliated with Capcom.
+                </Typography>
+
+                <Typography variant={"body1"} padding={3} paddingTop={0}>
+                  Project created by: Deniorr
                 </Typography>
               </Paper>
             </Box>
