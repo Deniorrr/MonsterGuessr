@@ -1,24 +1,66 @@
 import PropTypes from "prop-types";
-import { Box, Typography, Backdrop, Grid, Paper } from "@mui/material";
-import { useState } from "react";
+import { Box, Typography, Backdrop, Grid, Paper, Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 GameScore.propTypes = {
   score: PropTypes.array.isRequired,
   questionAmount: PropTypes.number.isRequired,
   questionIndex: PropTypes.number.isRequired,
+  isGameOver: PropTypes.bool,
 };
 
 function GameScore(props) {
   const score = props.score;
   const questionAmount = props.questionAmount;
   const questionIndex = props.questionIndex;
+  const isGameOver = props.isGameOver;
 
   const [isScoreboardOpen, setIsScoreboardOpen] = useState(false);
 
   const handleBackdropClick = () => {
-    console.log("clicked");
+    if (isGameOver) return;
     setIsScoreboardOpen(false);
   };
+
+  const handleNextGameClick = () => {
+    window.location.reload();
+  };
+
+  const renderGameOverScreen = () => {
+    return (
+      <Box marginBottom={5}>
+        <Typography variant="h4" textAlign={"center"} marginBottom={2}>
+          You have scored:
+        </Typography>
+        <Typography variant="h4" textAlign={"center"} marginBottom={2}>
+          {score.reduce((acc, curr) => acc + curr, 0).toFixed(3)} /{" "}
+          {score.length * 500}
+        </Typography>
+        <Button
+          onClick={handleNextGameClick}
+          variant="contained"
+          style={{ margin: "5px" }}
+        >
+          Next Game
+        </Button>
+        <Button
+          component={Link}
+          to="/"
+          variant="contained"
+          style={{ margin: "5px" }}
+        >
+          Go to menu
+        </Button>
+      </Box>
+    );
+  };
+
+  useEffect(() => {
+    if (isGameOver) {
+      setIsScoreboardOpen(true);
+    }
+  }, [isGameOver]);
 
   return (
     <>
@@ -51,9 +93,13 @@ function GameScore(props) {
             boxShadow: "0px 2px 15px 0px #2e7e0b",
           }}
         >
-          <Typography variant="h4" textAlign={"center"} marginBottom={2}>
-            Scoreboard
-          </Typography>
+          {isGameOver ? (
+            renderGameOverScreen()
+          ) : (
+            <Typography variant="h4" textAlign={"center"} marginBottom={2}>
+              Scoreboard
+            </Typography>
+          )}
           <Grid
             container
             style={{
@@ -110,13 +156,6 @@ function GameScore(props) {
               </Typography>
             </Grid>
           </Grid>
-          {/* Total Score: {score.reduce((acc, curr) => acc + curr, 0)} /{" "}
-            {score.length * 500}
-          <ul>
-            {score.map((score, index) => {
-              return <li key={index}>{score}</li>;
-            })}
-          </ul> */}
         </Paper>
       </Backdrop>
     </>

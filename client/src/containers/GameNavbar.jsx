@@ -20,6 +20,7 @@ GameNavbar.propTypes = {
   switchMaps: PropTypes.func.isRequired,
   switchLayers: PropTypes.func.isRequired,
   markerPosition: PropTypes.object,
+  isLastQuestion: PropTypes.bool,
 };
 
 function GameNavbar(props) {
@@ -30,6 +31,7 @@ function GameNavbar(props) {
   const switchMaps = props.switchMaps;
   const switchLayers = props.switchLayers;
   const markerPosition = props.markerPosition;
+  const isLastQuestion = props.isLastQuestion;
 
   const [layerIndex, setLayerIndex] = useState(0);
   const [selectedRegionName, setSelectedRegionName] =
@@ -51,9 +53,11 @@ function GameNavbar(props) {
   };
 
   const nextHandler = () => {
-    setIsLoading(true);
-    setHasGuessed(false);
     resetMap();
+    if (isLastQuestion) return;
+    setHasGuessed(false);
+
+    setIsLoading(true);
   };
 
   const handleQuestionLoad = () => {
@@ -161,7 +165,7 @@ function GameNavbar(props) {
           style={{ width: "100%" }}
           onClick={() => nextHandler()}
         >
-          Next
+          {isLastQuestion ? "Finish" : "Next"}
         </Button>
       ) : (
         <Button

@@ -2,7 +2,6 @@ import PositionSelector from "../containers/PositionSelector";
 import { useState, useEffect } from "react";
 import screenshotsData from "../assets/screenshots/screenshotsData";
 import GameScore from "../containers/GameScore";
-import { Link } from "react-router-dom";
 
 const QUESTION_AMOUNT = 3;
 
@@ -50,18 +49,16 @@ function GamePage() {
 
   return (
     <div className="game-container">
-      {isGameOver ? (
-        <h1>Game Over</h1>
-      ) : (
-        <PositionSelector
-          guessPosition={guessPosition}
-          question={activeQuestion}
-          nextQuestion={nextQuestion}
-        />
-      )}
+      <PositionSelector
+        guessPosition={guessPosition}
+        question={activeQuestion}
+        nextQuestion={nextQuestion}
+        isLastQuestion={questionIndex === QUESTION_AMOUNT - 1}
+      />
 
       <GameScore
         score={score}
+        isGameOver={isGameOver}
         questionAmount={QUESTION_AMOUNT}
         questionIndex={questionIndex}
       />

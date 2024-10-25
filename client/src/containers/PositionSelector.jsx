@@ -18,11 +18,13 @@ PositionSelector.propTypes = {
   guessPosition: PropTypes.func.isRequired,
   question: PropTypes.object,
   nextQuestion: PropTypes.func.isRequired,
+  isLastQuestion: PropTypes.bool,
 };
 
 function PositionSelector(props) {
   const guessPosition = props.guessPosition;
   const nextQuestion = props.nextQuestion;
+  const isLastQuestion = props.isLastQuestion;
   const [markerPosition, setMarkerPosition] = useState(null);
   const [showSolution, setShowSolution] = useState(false);
   const [polylineCoords, setPolylineCoords] = useState([]);
@@ -62,11 +64,12 @@ function PositionSelector(props) {
   };
 
   const resetMap = () => {
+    nextQuestion();
+    if (isLastQuestion) return;
     setAnswerConfirmed(false);
     setMarkerPosition(null);
     setShowSolution(false);
     setPolylineCoords([]);
-    nextQuestion();
     //selectQuestion();
   };
 
@@ -151,6 +154,7 @@ function PositionSelector(props) {
           switchMaps={switchMaps}
           switchLayers={switchLayers}
           markerPosition={markerPosition}
+          isLastQuestion={isLastQuestion}
         />
       </Grid>
     </Grid>
