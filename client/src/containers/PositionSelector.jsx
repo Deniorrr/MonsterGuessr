@@ -9,10 +9,12 @@ import {
 import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 import maps from "../data/mapImages";
-
 import GameNavbar from "./GameNavbar";
 import PropTypes from "prop-types";
 import { Grid, Box, Typography } from "@mui/material";
+import mapPointer from "../assets/pointer_small.png";
+import mapPointer2 from "../assets/pointer_small2.png";
+import L from "leaflet";
 
 PositionSelector.propTypes = {
   guessPosition: PropTypes.func.isRequired,
@@ -31,6 +33,26 @@ function PositionSelector(props) {
   const [selectedLayer, setSelectedLayer] = useState(
     maps.MHW.ancient_forest.maps[0]
   );
+  const customIcon = new L.Icon({
+    iconUrl: mapPointer,
+    iconSize: [50, 68], // Adjust the size as needed
+    iconAnchor: [25, 68], // Adjust the anchor point as needed
+    popupAnchor: [1, -34], // Adjust the popup anchor point as needed
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
+    shadowSize: [68, 68], // Adjust the shadow size as needed
+  });
+
+  const customIcon2 = new L.Icon({
+    iconUrl: mapPointer2,
+    iconSize: [50, 68], // Adjust the size as needed
+    iconAnchor: [25, 68], // Adjust the anchor point as needed
+    popupAnchor: [1, -34], // Adjust the popup anchor point as needed
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
+    shadowSize: [68, 68], // Adjust the shadow size as needed
+  });
+
   const [selectedRegion, setSelectedRegion] = useState(maps.MHW.ancient_forest);
   const [layerIndex, setLayerIndex] = useState(0);
   const [answerConfirmed, setAnswerConfirmed] = useState(false);
@@ -55,11 +77,7 @@ function PositionSelector(props) {
     });
 
     return markerPosition === null ? null : (
-      <Marker position={markerPosition}>
-        <Popup>
-          Coordinates: {markerPosition.lat}, {markerPosition.lng}
-        </Popup>
-      </Marker>
+      <Marker position={markerPosition} icon={customIcon2}></Marker>
     );
   };
 
@@ -112,9 +130,11 @@ function PositionSelector(props) {
 
   const renderSolution = () => {
     return (
-      <Marker position={question.location} className="pointer">
-        <Popup>Answer</Popup>
-      </Marker>
+      <Marker
+        position={question.location}
+        className="pointer"
+        icon={customIcon}
+      ></Marker>
     );
   };
   return (
@@ -141,7 +161,7 @@ function PositionSelector(props) {
           <LocationMarker />
           {showSolution && renderSolution()}
           {polylineCoords.length > 0 && (
-            <Polyline positions={polylineCoords} color="blue" />
+            <Polyline positions={polylineCoords} color="#11b8c7" />
           )}
         </MapContainer>
       </Grid>
