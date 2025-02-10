@@ -1,6 +1,5 @@
 import PositionSelector from "../containers/PositionSelector";
 import { useState, useEffect } from "react";
-//import screenshotsData from "../assets/screenshots/screenshotsData";
 import GameScore from "../containers/GameScore";
 import axios from "axios";
 
@@ -31,13 +30,7 @@ function GamePage() {
 
   useEffect(() => {
     getQuestions();
-    //createOrder();
-  }, []); // eslint-disable-line
-
-  // const createOrder = () => {
-  //   screenshotsData.sort(() => Math.random() - 0.5);
-  //   selectQuestion(0);
-  // };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const nextQuestion = () => {
     const nextIndex = questionIndex + 1;
@@ -49,7 +42,6 @@ function GamePage() {
   };
 
   const selectQuestion = (questionIndex, _question = null) => {
-    //const randomIndex = Math.floor(Math.random() * screenshotsData.length);
     if (_question !== null) {
       setActiveQuestion(_question);
       return;
@@ -86,13 +78,6 @@ function GamePage() {
         questionAmount={QUESTION_AMOUNT}
         questionIndex={questionIndex}
       />
-
-      {/* <div>
-        <img
-          src={`data:image/png;base64,${questions[0].imageData}`}
-          alt="Screenshot"
-        />
-      </div> */}
     </div>
   );
 }

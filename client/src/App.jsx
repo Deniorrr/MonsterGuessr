@@ -32,3 +32,6 @@ function App() {
 }
 
 export default App;
+
+//TODO:
+// show better info after guessing: distance, correct location and layer

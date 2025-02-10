@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "./env/local.env" });
+dotenv.config({ path: ".env" });
 
 import fs from "fs";
 import path from "path";
@@ -19,15 +19,13 @@ app.use(express.json());
 
 const server = http.createServer(app);
 
+console.log(process.env.DB_HOST);
+
 const db = mysql.createPool({
-  // host: process.env.DB_HOST,
-  // user: process.env.DB_USER,
-  // password: process.env.DB_PASS,
-  // database: process.env.DB_NAME,
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "mhg",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
 app.get("/screens", async (req, res) => {
@@ -45,7 +43,6 @@ app.get("/screens", async (req, res) => {
         return {
           ...result,
           imageData,
-          //screenData: undefined, // Remove screenData from the response
         };
       });
       res.json(screens);
