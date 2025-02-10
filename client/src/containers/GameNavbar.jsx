@@ -76,7 +76,7 @@ function GameNavbar(props) {
         ) : null}
 
         <img
-          src={`/src/assets/screenshots/${question.screenName}`}
+          src={`data:image/png;base64,${question.imageData}`}
           alt="question"
           style={{ width: "100%" }}
           onClick={handleOpenBigImage}
@@ -209,7 +209,7 @@ function GameNavbar(props) {
         {question !== null ? (
           <img
             className="backdrop-image"
-            src={`/src/assets/screenshots/${question.screenName}`}
+            src={`data:image/png;base64,${question.imageData}`}
             alt="question"
           />
         ) : (

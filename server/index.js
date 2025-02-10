@@ -3,7 +3,7 @@ dotenv.config({ path: "./env/local.env" });
 
 import fs from "fs";
 import path from "path";
-import { serialize } from "bson";
+import { serialize, deserialize } from "bson";
 import { fileURLToPath } from "url";
 import mysql from "mysql2";
 import http from "http";
@@ -44,8 +44,8 @@ app.get("/screens", async (req, res) => {
         const imageData = deserialize(screenData).imageData;
         return {
           ...result,
-          image: Buffer.from(imageData).toString("base64"), // Convert image data to base64 string
-          screenData: undefined, // Remove screenData from the response
+          imageData,
+          //screenData: undefined, // Remove screenData from the response
         };
       });
       res.json(screens);

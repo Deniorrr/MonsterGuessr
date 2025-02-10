@@ -2,7 +2,6 @@ import {
   MapContainer,
   ImageOverlay,
   Marker,
-  Popup,
   useMapEvents,
   Polyline,
 } from "react-leaflet";
