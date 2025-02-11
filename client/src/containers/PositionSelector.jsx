@@ -137,11 +137,11 @@ function PositionSelector(props) {
     );
   };
   return (
-    <Grid container style={{ height: "100%", zIndex: 1 }}>
+    <Grid container style={{ height: "100%" }}>
       <Grid row item xs={9}>
         {isLoading ? (
           <Box className="loading-text">
-            <Typography>Loading...</Typography>
+            <Typography variant="h5">Loading...</Typography>
           </Box>
         ) : null}
         <MapContainer

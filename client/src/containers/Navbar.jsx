@@ -5,6 +5,7 @@ function Navbar() {
   const pages = {
     game: "Normal Game",
     easy: "Easy Mode",
+    submit: "Submit Location",
     settings: "Settings",
     privacy: "Privacy",
     about: "About",
@@ -28,34 +29,7 @@ function Navbar() {
 
   return (
     <nav>
-      <List dense={"dense"}>
-        {generateListItems()}
-        {/* <ListItem>
-          <Link to="/game">
-            <Typography>Normal Game</Typography>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/game">
-            <Typography>Easy Mode</Typography>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/settings">
-            <Typography>Settings</Typography>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/privacy">
-            <Typography>Privacy</Typography>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link to="/about">
-            <Typography>About</Typography>
-          </Link>
-        </ListItem> */}
-      </List>
+      <List dense={"dense"}>{generateListItems()}</List>
     </nav>
   );
 }

@@ -10,6 +10,7 @@ import http from "http";
 
 import express from "express";
 import cors from "cors";
+import multer from "multer";
 
 const app = express();
 
@@ -27,6 +28,9 @@ const db = mysql.createPool({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
 });
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 app.get("/screens", async (req, res) => {
   const sql = `SELECT * FROM screenshots ORDER BY RAND() LIMIT 3`;
@@ -50,6 +54,22 @@ app.get("/screens", async (req, res) => {
       res.status(404).send("No screenshots found");
     }
   });
+});
+
+app.post("/submit", upload.single("file"), async (req, res) => {
+  const { region, layer, lat, lng } = req.body;
+  const file = req.file;
+
+  console.log(req.body); // Log the form data to verify it's being received
+  console.log(req.file); // Log the file data to verify it's being received
+
+  if (!file) {
+    return res.status(400).send("No file uploaded.");
+  }
+
+  const screenData = serialize({ imageData: file.buffer });
+
+  pushScreen(screenData, "MHW", region, layer, lat, lng);
 });
 
 server.listen(3001);
