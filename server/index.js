@@ -67,6 +67,7 @@ app.post("/submit", upload.single("file"), async (req, res) => {
   const screenData = serialize({ imageData: file.buffer });
 
   pushScreen(screenData, "MHW", region, layer, lat, lng, easyMode);
+  res.send("Screen submitted");
 });
 
 server.listen(3001);

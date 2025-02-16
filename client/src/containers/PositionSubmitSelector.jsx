@@ -83,10 +83,22 @@ function PositionSubmitSelector() {
       })
       .then((response) => {
         console.log(response);
+        resetData();
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const resetData = () => {
+    //reset oprócz pliku, żeby wiedzieć jaki dodano ostatnio
+    setMarkerPosition(null);
+    setSelectedRegion(maps.MHW.ancient_forest);
+    setSelectedLayer(maps.MHW.ancient_forest.maps[0]);
+    setLayerIndex(0);
+    //setFile(null);
+    setEasyMode(false);
+    console.log("Data reset");
   };
 
   const switchMaps = (region) => {
