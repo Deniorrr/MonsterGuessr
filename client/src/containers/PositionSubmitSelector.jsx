@@ -177,107 +177,109 @@ function PositionSubmitSelector() {
   };
 
   return (
-    <Grid container style={{ height: "100%" }}>
-      <Grid row item xs={9}>
-        {isLoading ? (
-          <Box className="loading-text">
-            <Typography variant="h5">Loading...</Typography>
-          </Box>
-        ) : null}
-        <MapContainer
-          center={[4.5, 8]}
-          zoom={zoom_level}
-          scrollWheelZoom={true}
-          minZoom={7}
-          maxZoom={9}
-          maxBounds={bounds}
-        >
-          <ImageOverlay
-            url={selectedLayer}
-            bounds={bounds}
-            eventHandlers={{ load: handleMapLoad }}
-          />
-          <LocationMarker />
-        </MapContainer>
-      </Grid>
-      <Grid row item xs={3} className="aside-bar">
-        {
-          //FORM
-        }
-        <Box component={"nav"}>
-          <Typography
-            variant="h5"
-            margin={"10px"}
-            marginTop={"2em"}
-            textAlign={"center"}
+    <div className="game-container">
+      <Grid container style={{ height: "100%" }}>
+        <Grid row item xs={9}>
+          {isLoading ? (
+            <Box className="loading-text">
+              <Typography variant="h5">Loading...</Typography>
+            </Box>
+          ) : null}
+          <MapContainer
+            center={[4.5, 8]}
+            zoom={zoom_level}
+            scrollWheelZoom={true}
+            minZoom={7}
+            maxZoom={9}
+            maxBounds={bounds}
           >
-            Screenshot
-          </Typography>
-          <Box display={"flex"} justifyContent={"center"}>
-            <MuiFileInput
-              value={file}
-              onChange={handleFileSelect}
-              placeholder="Insert an image"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <InsertDriveFileIcon />
-                  </InputAdornment>
-                ),
-              }}
+            <ImageOverlay
+              url={selectedLayer}
+              bounds={bounds}
+              eventHandlers={{ load: handleMapLoad }}
             />
-          </Box>
-          <Box
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            marginTop={"2em"}
-          >
-            <Typography variant="h5" margin={"10px"} textAlign={"center"}>
-              Easy mode
+            <LocationMarker />
+          </MapContainer>
+        </Grid>
+        <Grid row item xs={3} className="aside-bar">
+          {
+            //FORM
+          }
+          <Box component={"nav"}>
+            <Typography
+              variant="h5"
+              margin={"10px"}
+              marginTop={"2em"}
+              textAlign={"center"}
+            >
+              Screenshot
             </Typography>
-            <Checkbox
-              onChange={() => {
-                console.log("Switching to ", !easyMode);
-                setEasyMode(!easyMode);
-              }}
-              checked={easyMode}
-            />
-          </Box>
-          <Typography
-            variant="h5"
-            margin={"10px"}
-            marginTop={"2em"}
-            textAlign={"center"}
-          >
-            Region
-          </Typography>
-          {generateMapsNavigation()}
-          <Typography
-            variant="h5"
-            margin={"10px"}
-            marginTop={"2em"}
-            textAlign={"center"}
-          >
-            Layer
-          </Typography>
-          <Box display={"flex"} justifyContent={"center"}>
-            {generateLayersNavigation()}
-          </Box>
+            <Box display={"flex"} justifyContent={"center"}>
+              <MuiFileInput
+                value={file}
+                onChange={handleFileSelect}
+                placeholder="Insert an image"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <InsertDriveFileIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              marginTop={"2em"}
+            >
+              <Typography variant="h5" margin={"10px"} textAlign={"center"}>
+                Easy mode
+              </Typography>
+              <Checkbox
+                onChange={() => {
+                  console.log("Switching to ", !easyMode);
+                  setEasyMode(!easyMode);
+                }}
+                checked={easyMode}
+              />
+            </Box>
+            <Typography
+              variant="h5"
+              margin={"10px"}
+              marginTop={"2em"}
+              textAlign={"center"}
+            >
+              Region
+            </Typography>
+            {generateMapsNavigation()}
+            <Typography
+              variant="h5"
+              margin={"10px"}
+              marginTop={"2em"}
+              textAlign={"center"}
+            >
+              Layer
+            </Typography>
+            <Box display={"flex"} justifyContent={"center"}>
+              {generateLayersNavigation()}
+            </Box>
 
-          <Button
-            variant="contained"
-            style={{ width: "100%", marginTop: "2em" }}
-            onClick={() => {
-              submitHandler();
-            }}
-            disabled={markerPosition == null}
-          >
-            {markerPosition == null ? "Select position" : "Submit"}
-          </Button>
-        </Box>
+            <Button
+              variant="contained"
+              style={{ width: "100%", marginTop: "2em" }}
+              onClick={() => {
+                submitHandler();
+              }}
+              disabled={markerPosition == null}
+            >
+              {markerPosition == null ? "Select position" : "Submit"}
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 
