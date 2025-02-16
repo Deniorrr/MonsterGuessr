@@ -57,11 +57,8 @@ app.get("/screens", async (req, res) => {
 });
 
 app.post("/submit", upload.single("file"), async (req, res) => {
-  const { region, layer, lat, lng } = req.body;
+  const { region, layer, lat, lng, easyMode } = req.body;
   const file = req.file;
-
-  console.log(req.body); // Log the form data to verify it's being received
-  console.log(req.file); // Log the file data to verify it's being received
 
   if (!file) {
     return res.status(400).send("No file uploaded.");
@@ -69,17 +66,26 @@ app.post("/submit", upload.single("file"), async (req, res) => {
 
   const screenData = serialize({ imageData: file.buffer });
 
-  pushScreen(screenData, "MHW", region, layer, lat, lng);
+  pushScreen(screenData, "MHW", region, layer, lat, lng, easyMode);
 });
 
 server.listen(3001);
 console.log("app Started on localhost:3001");
 
-const pushScreen = (screenData, gameName, mapName, layer, lat, lng) => {
-  const sql = `INSERT INTO screenshots (screenData, gameName, mapName, layer, lat, lng) VALUES (?, ?, ?, ?, ?, ?)`;
+const pushScreen = (
+  screenData,
+  gameName,
+  mapName,
+  layer,
+  lat,
+  lng,
+  easyMode
+) => {
+  easyMode = easyMode === "true" ? 1 : 0;
+  const sql = `INSERT INTO screenshots (screenData, gameName, mapName, layer, lat, lng, easyMode) VALUES (?, ?, ?, ?, ?, ?, ?)`;
   db.query(
     sql,
-    [screenData, gameName, mapName, layer, lat, lng],
+    [screenData, gameName, mapName, layer, lat, lng, easyMode],
     (err, result) => {
       if (err) {
         console.log("EROOR!?!?!", err);

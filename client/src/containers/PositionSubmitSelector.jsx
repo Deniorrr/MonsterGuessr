@@ -17,6 +17,7 @@ import {
   AccordionDetails,
   ButtonGroup,
   InputAdornment,
+  Checkbox,
 } from "@mui/material";
 import mapPointer from "../assets/pointer_small.png";
 import L from "leaflet";
@@ -44,6 +45,7 @@ function PositionSubmitSelector() {
   const [layerIndex, setLayerIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
+  const [easyMode, setEasyMode] = useState(false);
   //const [question, setQuestion] = useState(null);
   const bounds = [
     [0, 0], // Top-left corner
@@ -69,9 +71,10 @@ function PositionSubmitSelector() {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("region", selectedRegion.name);
-    formData.append("layer", layerIndex);
+    formData.append("layer", layerIndex + 1);
     formData.append("lat", markerPosition.lat);
     formData.append("lng", markerPosition.lng);
+    formData.append("easyMode", easyMode);
     axios
       .post("http://localhost:3001/submit", formData, {
         headers: {
@@ -87,6 +90,7 @@ function PositionSubmitSelector() {
   };
 
   const switchMaps = (region) => {
+    if (region === selectedRegion) return;
     setIsLoading(true);
     setSelectedRegion(region);
     setLayerIndex(0);
@@ -94,6 +98,7 @@ function PositionSubmitSelector() {
   };
 
   const switchLayers = (index) => {
+    if (index === layerIndex) return;
     setIsLoading(true);
     setLayerIndex(index);
     setSelectedLayer(selectedRegion.maps[index]);
@@ -220,6 +225,23 @@ function PositionSubmitSelector() {
                   </InputAdornment>
                 ),
               }}
+            />
+          </Box>
+          <Box
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            marginTop={"2em"}
+          >
+            <Typography variant="h5" margin={"10px"} textAlign={"center"}>
+              Easy mode
+            </Typography>
+            <Checkbox
+              onChange={() => {
+                console.log("Switching to ", !easyMode);
+                setEasyMode(!easyMode);
+              }}
+              checked={easyMode}
             />
           </Box>
           <Typography
