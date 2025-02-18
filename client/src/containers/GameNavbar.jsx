@@ -14,6 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 GameNavbar.propTypes = {
   guess: PropTypes.func.isRequired,
+  guessedPosition: PropTypes.object,
   question: PropTypes.object,
   selectedRegion: PropTypes.object,
   resetMap: PropTypes.func.isRequired,
@@ -21,6 +22,7 @@ GameNavbar.propTypes = {
   switchLayers: PropTypes.func.isRequired,
   markerPosition: PropTypes.object,
   isLastQuestion: PropTypes.bool,
+  layer: PropTypes.number,
 };
 
 function GameNavbar(props) {
@@ -32,6 +34,7 @@ function GameNavbar(props) {
   const switchLayers = props.switchLayers;
   const markerPosition = props.markerPosition;
   const isLastQuestion = props.isLastQuestion;
+  const layer = props.layer;
 
   const [layerIndex, setLayerIndex] = useState(0);
   const [selectedRegionName, setSelectedRegionName] =
@@ -155,6 +158,38 @@ function GameNavbar(props) {
     );
   };
 
+  const generateResult = () => {
+    const distance = Math.sqrt(
+      Math.pow(markerPosition.lat - question.lat, 2) +
+        Math.pow(markerPosition.lng - question.lng, 2)
+    );
+
+    console.log(distance);
+
+    return (
+      <Box>
+        <Typography
+          variant="h4"
+          margin={"10px"}
+          marginTop={"2em"}
+          marginBottom={"1em"}
+          textAlign={"center"}
+        >
+          Result
+        </Typography>
+        <Typography variant="h6" margin={"10px"} textAlign={"center"}>
+          Distance: {distance}
+        </Typography>
+        <Typography variant="h6" margin={"10px"} textAlign={"center"}>
+          Region: {selectedRegion.name}
+        </Typography>
+        <Typography variant="h6" margin={"10px"} textAlign={"center"}>
+          Layer: {layer + 1}
+        </Typography>
+      </Box>
+    );
+  };
+
   return (
     <Box component={"nav"}>
       {renderQuestion()}
@@ -179,28 +214,32 @@ function GameNavbar(props) {
           {markerPosition == null ? "Select position" : "Guess"}
         </Button>
       )}
-
-      <Typography
-        variant="h5"
-        margin={"10px"}
-        marginTop={"2em"}
-        textAlign={"center"}
-      >
-        Region
-      </Typography>
-      {generateMapsNavigation()}
-      <Typography
-        variant="h5"
-        margin={"10px"}
-        marginTop={"2em"}
-        textAlign={"center"}
-      >
-        Layer
-      </Typography>
-      <Box display={"flex"} justifyContent={"center"}>
-        {generateLayersNavigation()}
-      </Box>
-
+      {!hasGuessed ? (
+        <>
+          <Typography
+            variant="h5"
+            margin={"10px"}
+            marginTop={"2em"}
+            textAlign={"center"}
+          >
+            Region
+          </Typography>
+          {generateMapsNavigation()}
+          <Typography
+            variant="h5"
+            margin={"10px"}
+            marginTop={"2em"}
+            textAlign={"center"}
+          >
+            Layer
+          </Typography>
+          <Box display={"flex"} justifyContent={"center"}>
+            {generateLayersNavigation()}
+          </Box>
+        </>
+      ) : (
+        generateResult()
+      )}
       <Backdrop
         sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
         open={isBigImageOpen}

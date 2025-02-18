@@ -2,30 +2,39 @@ import PositionSelector from "../containers/PositionSelector";
 import { useState, useEffect } from "react";
 import GameScore from "../containers/GameScore";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const QUESTION_AMOUNT = 3;
 
-function GamePage() {
+GamePage.propTypes = {
+  easyMode: PropTypes.bool,
+};
+
+function GamePage(props) {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
   const [questions, setQuestions] = useState([]);
 
+  const easyMode = props.easyMode;
+
   const getQuestions = async () => {
-    axios.get("http://localhost:3001/screens").then((response) => {
-      const recievedData = response.data.map((result) => {
-        return {
-          ...result,
-          location: {
-            lat: result.lat,
-            lng: result.lng,
-          },
-        };
+    axios
+      .get("http://localhost:3001/screens" + (easyMode ? "easymode" : ""))
+      .then((response) => {
+        const recievedData = response.data.map((result) => {
+          return {
+            ...result,
+            location: {
+              lat: result.lat,
+              lng: result.lng,
+            },
+          };
+        });
+        setQuestions(recievedData);
+        selectQuestion(0, recievedData[0]);
       });
-      setQuestions(recievedData);
-      selectQuestion(0, recievedData[0]);
-    });
   };
 
   useEffect(() => {

@@ -101,11 +101,6 @@ function PositionSelector(props) {
     //showResult(); // local or child component
 
     const solution = question.location;
-
-    // const distance = Math.sqrt(
-    //   Math.pow(markerPosition.lat - solution.lat, 2) +
-    //     Math.pow(markerPosition.lng - solution.lng, 2)
-    // );
     setPolylineCoords([markerPosition, solution]);
     setShowSolution(true);
   };
@@ -167,6 +162,7 @@ function PositionSelector(props) {
       <Grid row item xs={3} className="aside-bar">
         <GameNavbar
           guess={guess}
+          layer={layerIndex}
           question={question}
           selectedRegion={selectedRegion}
           resetMap={resetMap}

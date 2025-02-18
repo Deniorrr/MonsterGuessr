@@ -56,6 +56,31 @@ app.get("/screens", async (req, res) => {
   });
 });
 
+app.get("/screenseasymode", async (req, res) => {
+  console.log("easy mode");
+  const sql = `SELECT * FROM screenshots WHERE easyMode = true ORDER BY RAND() LIMIT 3`;
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.log("Error fetching random screenshots:", err);
+      res.status(500).send("Error fetching random screenshots");
+      return;
+    }
+    if (results.length > 0) {
+      const screens = results.map((result) => {
+        const screenData = result.screenData;
+        const imageData = deserialize(screenData).imageData;
+        return {
+          ...result,
+          imageData,
+        };
+      });
+      res.json(screens);
+    } else {
+      res.status(404).send("No screenshots found");
+    }
+  });
+});
+
 app.post("/submit", upload.single("file"), async (req, res) => {
   const { region, layer, lat, lng, easyMode } = req.body;
   const file = req.file;
@@ -119,20 +144,4 @@ const pushScreen = (
 //     const bsonData = serialize({ imageData });
 //     pushScreen(bsonData, gameName, mapName, layer, lat, lng);
 //   });
-// });
-
-// app.post("/login", async (req, res) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
-
-// });
-
-// app.get("/conversations", async (req, res) => {
-//   DbAccess.getConversations(req.user.id)
-//     .then((result) => {
-//       res.send(result);
-//     })
-//     .catch((err) => {
-//       res.status(500).send(err);
-//     });
 // });
