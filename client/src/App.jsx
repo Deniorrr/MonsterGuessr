@@ -39,11 +39,13 @@ export default App;
 //MY KANBAN BOARD:
 
 //TODO:
-// show better info after guessing: distance, correct location and layer
+// show result after guessing as a table selected location vs correct location
 // change map to correct location after guessing
 // create around 10 actual locations on ancient forest and wildspire waste
+// proper scoring system
 // test that thing
 // create GameContext for storing everything
 // animations: after guessing
 
 //DONE:
+// show better info after guessing: distance, correct location and layer

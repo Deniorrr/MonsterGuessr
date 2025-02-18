@@ -11,6 +11,8 @@ import {
   Box,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import GoodIcon from "@mui/icons-material/CheckBox";
+import WrongIcon from "@mui/icons-material/DisabledByDefault";
 
 GameNavbar.propTypes = {
   guess: PropTypes.func.isRequired,
@@ -158,6 +160,18 @@ function GameNavbar(props) {
     );
   };
 
+  const generateIcon = (isCorrect) => {
+    return isCorrect ? (
+      <Box display={"flex"} alignItems={"center"}>
+        <GoodIcon sx={{ color: "#2e7e0b", marginLeft: "5px" }} />
+      </Box>
+    ) : (
+      <Box display={"flex"} alignItems={"center"}>
+        <WrongIcon sx={{ color: "red" }} />
+      </Box>
+    );
+  };
+
   const generateResult = () => {
     const distance = Math.sqrt(
       Math.pow(markerPosition.lat - question.lat, 2) +
@@ -172,8 +186,10 @@ function GameNavbar(props) {
           variant="h4"
           margin={"10px"}
           marginTop={"2em"}
-          marginBottom={"1em"}
           textAlign={"center"}
+          style={{
+            borderBottom: "2px solid #2e7e0b",
+          }}
         >
           Result
         </Typography>
@@ -181,10 +197,27 @@ function GameNavbar(props) {
           Distance: {distance}
         </Typography>
         <Typography variant="h6" margin={"10px"} textAlign={"center"}>
-          Region: {selectedRegion.name}
+          <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+            <Box>Correct Region: {question.mapName}</Box>
+            {generateIcon(selectedRegion.name === question.mapName)}
+          </Box>
         </Typography>
         <Typography variant="h6" margin={"10px"} textAlign={"center"}>
-          Layer: {layer + 1}
+          <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+            <Box>Correct Layer: {question.layer}</Box>
+            {generateIcon(layer + 1 === question.layer)}
+          </Box>
+        </Typography>
+        <Typography
+          variant="h6"
+          margin={"10px"}
+          paddingTop={"1em"}
+          textAlign={"center"}
+          style={{
+            borderTop: "2px solid #2e7e0b",
+          }}
+        >
+          Score: {Math.round(distance * 100) / 100} / 500
         </Typography>
       </Box>
     );
