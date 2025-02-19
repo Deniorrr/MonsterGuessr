@@ -28,6 +28,7 @@ function PositionSelector(props) {
   const isLastQuestion = props.isLastQuestion;
   const [markerPosition, setMarkerPosition] = useState(null);
   const [showSolution, setShowSolution] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(true);
   const [polylineCoords, setPolylineCoords] = useState([]);
   const [selectedLayer, setSelectedLayer] = useState(
     maps.MHW.ancient_forest.maps[0]
@@ -69,7 +70,6 @@ function PositionSelector(props) {
   const LocationMarker = () => {
     useMapEvents({
       click(e) {
-        console.log(e.latlng);
         if (answerConfirmed) return;
         setMarkerPosition(e.latlng);
       },
@@ -86,6 +86,7 @@ function PositionSelector(props) {
     setAnswerConfirmed(false);
     setMarkerPosition(null);
     setShowSolution(false);
+    setShowAnswer(true);
     setPolylineCoords([]);
     //selectQuestion();
   };
@@ -101,7 +102,12 @@ function PositionSelector(props) {
     //showResult(); // local or child component
 
     const solution = question.location;
-    setPolylineCoords([markerPosition, solution]);
+    console.log("solution", question.mapName, selectedRegion);
+    if (question.mapName === selectedRegion.name)
+      setPolylineCoords([markerPosition, solution]);
+    else {
+      setShowAnswer(false);
+    }
     setShowSolution(true);
   };
 
@@ -159,7 +165,8 @@ function PositionSelector(props) {
             bounds={bounds}
             eventHandlers={{ load: handleMapLoad }}
           />
-          <LocationMarker />
+          {showAnswer && <LocationMarker />}
+
           {showSolution && renderSolution()}
           {polylineCoords.length > 0 && (
             <Polyline positions={polylineCoords} color="#11b8c7" />
