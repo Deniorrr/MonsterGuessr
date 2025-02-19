@@ -118,6 +118,13 @@ function PositionSelector(props) {
     setSelectedLayer(selectedRegion.maps[index]);
   };
 
+  const getCorrectLayer = () => {
+    let mapName = question.mapName.replace(/ /g, "_").toLowerCase(); // to lowercase and replace spaces with underscores
+    const rightRegion = maps.MHW[mapName];
+
+    return rightRegion.maps[question.layer - 1];
+  };
+
   const handleMapLoad = () => {
     setIsLoading(false);
   };
@@ -148,7 +155,7 @@ function PositionSelector(props) {
           maxBounds={bounds}
         >
           <ImageOverlay
-            url={selectedLayer}
+            url={showSolution ? getCorrectLayer() : selectedLayer}
             bounds={bounds}
             eventHandlers={{ load: handleMapLoad }}
           />
