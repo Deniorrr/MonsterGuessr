@@ -62,7 +62,7 @@ function PositionSelector(props) {
   const bounds = [
     [0, 0], // Top-left corner
     //[9.79, 11.03], // Bottom-right corner
-    [9, 16],
+    [23.5, 23],
   ];
 
   const zoom_level = 7;
@@ -112,6 +112,7 @@ function PositionSelector(props) {
   };
 
   const switchMaps = (region) => {
+    if (region === selectedRegion) if (layerIndex === 0) return;
     setIsLoading(true);
     setSelectedRegion(region);
     setLayerIndex(0);
@@ -119,6 +120,7 @@ function PositionSelector(props) {
   };
 
   const switchLayers = (index) => {
+    if (layerIndex === index) return;
     setIsLoading(true);
     setLayerIndex(index);
     setSelectedLayer(selectedRegion.maps[index]);
@@ -153,11 +155,11 @@ function PositionSelector(props) {
           </Box>
         ) : null}
         <MapContainer
-          center={[4.5, 8]}
+          center={[10, 10]}
           zoom={zoom_level}
           scrollWheelZoom={true}
-          minZoom={7}
-          maxZoom={9}
+          minZoom={6}
+          maxZoom={8}
           maxBounds={bounds}
         >
           <ImageOverlay

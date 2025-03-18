@@ -1,10 +1,28 @@
-import af1 from "../assets/maps/MHW/ancient_forest/1.png";
-import af2 from "../assets/maps/MHW/ancient_forest/2.png";
-import af3 from "../assets/maps/MHW/ancient_forest/3.png";
+import af1 from "../assets/maps/MHW/ancient_forest/af1.jpg";
+import af2 from "../assets/maps/MHW/ancient_forest/af2.jpg";
+import af3 from "../assets/maps/MHW/ancient_forest/af3.jpg";
 
-import ww1 from "../assets/maps/MHW/wildspire_waste/1.png";
-import ww2 from "../assets/maps/MHW/wildspire_waste/2.png";
-import ww3 from "../assets/maps/MHW/wildspire_waste/3.png";
+import ww1 from "../assets/maps/MHW/wildspire_waste/ww1.jpg";
+import ww2 from "../assets/maps/MHW/wildspire_waste/ww2.jpg";
+import ww3 from "../assets/maps/MHW/wildspire_waste/ww3.jpg";
+
+import ch1 from "../assets/maps/MHW/coral_highlands/ch1.jpg";
+import ch2 from "../assets/maps/MHW/coral_highlands/ch2.jpg";
+import ch3 from "../assets/maps/MHW/coral_highlands/ch3.jpg";
+
+import rv1 from "../assets/maps/MHW/rotten_vale/rv1.jpg";
+import rv2 from "../assets/maps/MHW/rotten_vale/rv2.jpg";
+import rv3 from "../assets/maps/MHW/rotten_vale/rv3.jpg";
+
+import er1 from "../assets/maps/MHW/elder_recess/er1.jpg";
+import er2 from "../assets/maps/MHW/elder_recess/er2.jpg";
+
+import hr1 from "../assets/maps/MHW/hoarfrost_reach/hr1.jpg";
+import hr2 from "../assets/maps/MHW/hoarfrost_reach/hr2.jpg";
+
+import gl1 from "../assets/maps/MHW/guiding_lands/gl1.jpg";
+import gl2 from "../assets/maps/MHW/guiding_lands/gl2.jpg";
+import gl3 from "../assets/maps/MHW/guiding_lands/gl3.jpg";
 
 const maps = {
   MHW: {
@@ -23,27 +41,27 @@ const maps = {
     coral_highlands: {
       name: "Coral Highlands",
       ratio: { height: 9.79, width: 11.03 },
-      maps: [],
+      maps: [ch1, ch2, ch3],
     },
     rotten_vale: {
       name: "Rotten Vale",
       ratio: { height: 9, width: 16 },
-      maps: [],
+      maps: [rv1, rv2, rv3],
     },
     elder_recess: {
       name: "Elder Recess",
       ratio: { height: 9, width: 16 },
-      maps: [],
+      maps: [er1, er2],
     },
     hoarfrost_reach: {
       name: "Hoarfrost Reach",
       ratio: { height: 9, width: 16 },
-      maps: [],
+      maps: [hr1, hr2],
     },
     guiding_lands: {
       name: "Guiding Lands",
       ratio: { height: 9, width: 16 },
-      maps: [],
+      maps: [gl1, gl2, gl3],
     },
   },
 };
