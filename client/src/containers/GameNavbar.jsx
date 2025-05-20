@@ -13,6 +13,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GoodIcon from "@mui/icons-material/CheckBox";
 import WrongIcon from "@mui/icons-material/DisabledByDefault";
+import { marker } from "leaflet";
 
 GameNavbar.propTypes = {
   guess: PropTypes.func.isRequired,
@@ -107,18 +108,15 @@ function GameNavbar(props) {
 
   const generateMapsNavigation = () => {
     return (
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-        >
+      <Accordion id="maps-panel">
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography fontWeight={"bold"}>MH World</Typography>
         </AccordionSummary>
         <AccordionDetails
           style={{
             display: "flex",
             justifyContent: "center",
+            color: "white",
           }}
         >
           <ButtonGroup orientation="vertical">
@@ -226,50 +224,41 @@ function GameNavbar(props) {
   return (
     <Box component={"nav"}>
       {renderQuestion()}
-
-      {hasGuessed ? (
-        <Button
-          variant="contained"
-          style={{ width: "100%" }}
-          onClick={() => nextHandler()}
-        >
-          {isLastQuestion ? "Finish" : "Next"}
-        </Button>
-      ) : (
-        <Button
-          variant="contained"
-          style={{ width: "100%" }}
-          onClick={() => {
-            guessHandler();
-          }}
-          disabled={markerPosition == null}
-        >
-          {markerPosition == null ? "Select position" : "Guess"}
-        </Button>
-      )}
+      <Box className="guess-button-wrapper">
+        {hasGuessed ? (
+          <Button variant="contained" onClick={() => nextHandler()}>
+            {isLastQuestion ? "Finish" : "Next"}
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            onClick={() => {
+              guessHandler();
+            }}
+            disabled={markerPosition == null}
+          >
+            {markerPosition == null ? "Select position" : "Guess"}
+          </Button>
+        )}
+      </Box>
       {!hasGuessed ? (
-        <>
+        <Box className="map-selector">
           <Typography
             variant="h5"
-            margin={"10px"}
-            marginTop={"2em"}
+            margin={"8px"}
             textAlign={"center"}
+            marginTop={"32px"}
           >
             Region
           </Typography>
           {generateMapsNavigation()}
-          <Typography
-            variant="h5"
-            margin={"10px"}
-            marginTop={"2em"}
-            textAlign={"center"}
-          >
+          <Typography variant="h5" margin={"8px"} textAlign={"center"}>
             Layer
           </Typography>
           <Box display={"flex"} justifyContent={"center"}>
             {generateLayersNavigation()}
           </Box>
-        </>
+        </Box>
       ) : (
         generateResult()
       )}

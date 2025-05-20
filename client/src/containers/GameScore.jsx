@@ -64,14 +64,37 @@ function GameScore(props) {
 
   return (
     <>
-      <Box className="game-score" onClick={() => setIsScoreboardOpen(true)}>
-        <Typography variant="h6">
-          Question: {questionIndex + 1} / {questionAmount}
-        </Typography>
-        <Typography variant="h6">
-          Score: {score.reduce((acc, curr) => acc + curr, 0)} /{" "}
-          {score.length * 500}
-        </Typography>
+      <Box className="game-score-wrapper">
+        <Box className="game-score" display={"flex"} alignItems={"center"}>
+          <Box className="game-score-item">
+            <Typography variant="h6">Question</Typography>
+            <Typography variant="h5">
+              {questionIndex + 1} / {questionAmount}
+            </Typography>
+          </Box>
+          <Box className="game-score-item">
+            <Typography variant="h6">Score</Typography>
+            <Typography variant="h5">
+              {score.reduce((acc, curr) => acc + curr, 0).toFixed(2)} /{" "}
+              {score.length * 500}
+            </Typography>
+          </Box>
+          <Box
+            className="game-score-item"
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            <Box>
+              <Button
+                variant="contained"
+                onClick={() => setIsScoreboardOpen(true)}
+                style={{ margin: "5px" }}
+              >
+                Details
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </Box>
       <Backdrop
         style={{
