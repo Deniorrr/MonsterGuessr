@@ -71,6 +71,7 @@ function PositionSelector(props) {
     useMapEvents({
       click(e) {
         if (answerConfirmed) return;
+        console.log("Location: ", e.latlng);
         setMarkerPosition(e.latlng);
       },
     });

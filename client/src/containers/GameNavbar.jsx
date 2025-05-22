@@ -175,8 +175,16 @@ function GameNavbar(props) {
       Math.pow(markerPosition.lat - question.lat, 2) +
         Math.pow(markerPosition.lng - question.lng, 2)
     );
-
-    console.log(distance);
+    const meters = (distance * 50) / 1.9;
+    let lostPoints = 500 * ((meters - 10) / 200);
+    if (lostPoints < 0) {
+      lostPoints = 0;
+    }
+    if (lostPoints > 500) {
+      lostPoints = 500;
+    }
+    const finalScore = 500 - lostPoints;
+    console.log("finalScore", finalScore);
 
     return (
       <Box>
@@ -192,7 +200,7 @@ function GameNavbar(props) {
           Result
         </Typography>
         <Typography variant="h6" margin={"10px"} textAlign={"center"}>
-          Distance: {distance}
+          Distance: {meters}
         </Typography>
         <Typography variant="h6" margin={"10px"} textAlign={"center"}>
           <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
@@ -215,7 +223,7 @@ function GameNavbar(props) {
             borderTop: "2px solid #2e7e0b",
           }}
         >
-          Score: {Math.round(distance * 100) / 100} / 500
+          Score: {finalScore}
         </Typography>
       </Box>
     );

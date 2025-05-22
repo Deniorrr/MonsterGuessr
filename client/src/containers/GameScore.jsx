@@ -103,6 +103,7 @@ function GameScore(props) {
         sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
         open={isScoreboardOpen}
         onClick={handleBackdropClick}
+        className="game-score-backdrop"
       >
         <Paper
           sx={{
@@ -130,12 +131,12 @@ function GameScore(props) {
             }}
           >
             <Grid item xs={6}>
-              <Typography variant="h6" textAlign={"center"}>
+              <Typography variant="h6" textAlign={"center"} color="#bbbbbb">
                 Round
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="h6" textAlign={"center"}>
+              <Typography variant="h6" textAlign={"center"} color="#bbbbbb">
                 Score
               </Typography>
             </Grid>
@@ -166,15 +167,16 @@ function GameScore(props) {
             container
             style={{
               borderTop: "1px solid #2e7e0b",
+              paddingTop: "16px",
             }}
           >
             <Grid item xs={6}>
-              <Typography variant="h6" textAlign={"center"}>
-                TOTAL
+              <Typography variant="h5" textAlign={"center"}>
+                TOTAL:
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="h6" textAlign={"center"}>
+              <Typography variant="h5" textAlign={"center"} fontWeight={"bold"}>
                 {score.reduce((acc, curr) => acc + curr, 0).toFixed(3)}
               </Typography>
             </Grid>

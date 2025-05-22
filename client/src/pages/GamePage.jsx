@@ -65,7 +65,21 @@ function GamePage(props) {
       Math.pow(selectedPosition.markerPosition.lat - answer.location.lat, 2) +
         Math.pow(selectedPosition.markerPosition.lng - answer.location.lng, 2)
     );
-    setScore([...score, distance]);
+    const meters = (distance * 50) / 1.9;
+    let lostPoints = 500 * ((meters - 10) / 200);
+    if (lostPoints < 0) {
+      lostPoints = 0;
+    }
+    if (lostPoints > 500) {
+      lostPoints = 500;
+    }
+    const finalScore = 500 - lostPoints;
+    console.log("finalScore", finalScore);
+    // const distance = Math.sqrt(
+    //   Math.pow(selectedPosition.markerPosition.lat - answer.location.lat, 2) +
+    //     Math.pow(selectedPosition.markerPosition.lng - answer.location.lng, 2)
+    // );
+    setScore([...score, finalScore]);
   };
 
   const gameOver = () => {

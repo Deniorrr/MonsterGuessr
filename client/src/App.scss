@@ -108,6 +108,7 @@ body {
         button {
           font-size: 1rem;
           text-transform: capitalize;
+          color: #fff;
         }
         #maps-panel {
           background-color: hsl(34, 25%, 8%);
@@ -142,6 +143,13 @@ body {
           text-transform: capitalize;
         }
       }
+    }
+  }
+  .game-score-backdrop {
+    button,
+    a {
+      font-size: 1.125rem;
+      text-transform: capitalize;
     }
   }
 }
