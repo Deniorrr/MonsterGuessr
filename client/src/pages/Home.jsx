@@ -49,19 +49,17 @@ function Home() {
                   </figure>
                 </Box>
                 <Typography variant={"body1"} padding={3} paddingTop={0}>
-                  Welcome to Monster Hunter Guessr! Learn about the world of
-                  Monster Hunter by guessing the location of the screenshot. The
-                  closer your guess, the more points you earn. Good luck!
+                  Welcome to Monster Hunter Guessr! Test your knowledge of
+                  <span style={{ fontWeight: "bold" }}>
+                    &nbsp;Monster Hunter World&nbsp;
+                  </span>
+                  by guessing the location of the screenshot. The closer your
+                  guess, the more points you earn. Good luck!
                 </Typography>
                 <Typography variant={"body1"} padding={3} paddingTop={0}>
-                  Currently the game is in the early stages of development and
-                  uses only screenshots from Monster Hunter World, but more
-                  Monster Hunter games will be added in the future.
+                  This is a fan made project and is not affiliated with Capcom
+                  nor Geoguessr.
                 </Typography>
-                <Typography variant={"body1"} padding={3} paddingTop={0}>
-                  This is a fan made project and is not affiliated with Capcom.
-                </Typography>
-
                 <Typography variant={"body1"} padding={3} paddingTop={0}>
                   Project created by: Deniorr
                 </Typography>

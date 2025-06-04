@@ -6,9 +6,7 @@ function Navbar() {
     game: "Normal Game",
     easy: "Easy Mode",
     submit: "Submit Location",
-    settings: "Settings",
-    privacy: "Privacy",
-    about: "About",
+    HowToPlay: "How to Play",
   };
 
   const generateListItems = () => {
