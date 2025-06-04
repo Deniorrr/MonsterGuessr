@@ -1,20 +1,10 @@
-import PropTypes from "prop-types";
 import { Box, Typography, Backdrop, Grid, Paper, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useGame } from "../contexts/GameContext";
 
-GameScore.propTypes = {
-  score: PropTypes.array.isRequired,
-  questionAmount: PropTypes.number.isRequired,
-  questionIndex: PropTypes.number.isRequired,
-  isGameOver: PropTypes.bool,
-};
-
-function GameScore(props) {
-  const score = props.score;
-  const questionAmount = props.questionAmount;
-  const questionIndex = props.questionIndex;
-  const isGameOver = props.isGameOver;
+function GameScore() {
+  const { score, QUESTION_AMOUNT, questionIndex, isGameOver } = useGame();
 
   const [isScoreboardOpen, setIsScoreboardOpen] = useState(false);
 
@@ -69,7 +59,7 @@ function GameScore(props) {
           <Box className="game-score-item">
             <Typography variant="h6">Question</Typography>
             <Typography variant="h5">
-              {questionIndex + 1} / {questionAmount}
+              {questionIndex + 1} / {QUESTION_AMOUNT}
             </Typography>
           </Box>
           <Box className="game-score-item">

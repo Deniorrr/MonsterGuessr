@@ -9,23 +9,24 @@ import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 import maps from "../data/mapImages";
 import GameNavbar from "./GameNavbar";
-import PropTypes from "prop-types";
 import { Grid, Box, Typography } from "@mui/material";
 import mapPointer from "../assets/pointer_small.png";
 import mapPointer2 from "../assets/pointer_small2.png";
 import L from "leaflet";
+import { useGame } from "../contexts/GameContext";
 
-PositionSelector.propTypes = {
-  guessPosition: PropTypes.func.isRequired,
-  question: PropTypes.object,
-  nextQuestion: PropTypes.func.isRequired,
-  isLastQuestion: PropTypes.bool,
-};
+// PositionSelector.propTypes = {
+//   nextQuestion: PropTypes.func.isRequired,
+// };
 
-function PositionSelector(props) {
-  const guessPosition = props.guessPosition;
-  const nextQuestion = props.nextQuestion;
-  const isLastQuestion = props.isLastQuestion;
+function PositionSelector() {
+  // const nextQuestion = props.nextQuestion;
+  const {
+    activeQuestion: question,
+    isLastQuestion,
+    guessPosition,
+    nextQuestion,
+  } = useGame();
   const [markerPosition, setMarkerPosition] = useState(null);
   const [showSolution, setShowSolution] = useState(false);
   const [showAnswer, setShowAnswer] = useState(true);
@@ -57,8 +58,7 @@ function PositionSelector(props) {
   const [layerIndex, setLayerIndex] = useState(0);
   const [answerConfirmed, setAnswerConfirmed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //const [question, setQuestion] = useState(null);
-  const question = props.question;
+
   const bounds = [
     [0, 0], // Top-left corner
     //[9.79, 11.03], // Bottom-right corner
@@ -83,7 +83,7 @@ function PositionSelector(props) {
 
   const resetMap = () => {
     nextQuestion();
-    if (isLastQuestion) return;
+    if (isLastQuestion()) return;
     setAnswerConfirmed(false);
     setMarkerPosition(null);
     setShowSolution(false);
@@ -180,13 +180,11 @@ function PositionSelector(props) {
         <GameNavbar
           guess={guess}
           layer={layerIndex}
-          question={question}
           selectedRegion={selectedRegion}
           resetMap={resetMap}
           switchMaps={switchMaps}
           switchLayers={switchLayers}
           markerPosition={markerPosition}
-          isLastQuestion={isLastQuestion}
         />
       </Grid>
     </Grid>
@@ -194,6 +192,3 @@ function PositionSelector(props) {
 }
 
 export default PositionSelector;
-
-//it is possible that each map will have to have the same dimensions
-//because the bounds are set to the first map's dimensions and they are not updated when the map is switched

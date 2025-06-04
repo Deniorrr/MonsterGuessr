@@ -13,30 +13,26 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GoodIcon from "@mui/icons-material/CheckBox";
 import WrongIcon from "@mui/icons-material/DisabledByDefault";
-import { marker } from "leaflet";
+import { useGame } from "../contexts/GameContext";
 
 GameNavbar.propTypes = {
   guess: PropTypes.func.isRequired,
   guessedPosition: PropTypes.object,
-  question: PropTypes.object,
   selectedRegion: PropTypes.object,
   resetMap: PropTypes.func.isRequired,
   switchMaps: PropTypes.func.isRequired,
   switchLayers: PropTypes.func.isRequired,
   markerPosition: PropTypes.object,
-  isLastQuestion: PropTypes.bool,
   layer: PropTypes.number,
 };
 
 function GameNavbar(props) {
   const guess = props.guess;
-  const question = props.question;
   const selectedRegion = props.selectedRegion;
   const resetMap = props.resetMap;
   const switchMaps = props.switchMaps;
   const switchLayers = props.switchLayers;
   const markerPosition = props.markerPosition;
-  const isLastQuestion = props.isLastQuestion;
   const layer = props.layer;
 
   const [layerIndex, setLayerIndex] = useState(0);
@@ -45,6 +41,12 @@ function GameNavbar(props) {
   const [hasGuessed, setHasGuessed] = useState(false);
   const [isBigImageOpen, setIsBigImageOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    score,
+    lastAnswerInMeters,
+    activeQuestion: question,
+    isLastQuestion,
+  } = useGame();
 
   const handleCloseBigImage = () => {
     setIsBigImageOpen(false);
@@ -60,7 +62,7 @@ function GameNavbar(props) {
 
   const nextHandler = () => {
     resetMap();
-    if (isLastQuestion) return;
+    if (isLastQuestion()) return;
     setHasGuessed(false);
 
     setIsLoading(true);
@@ -121,7 +123,6 @@ function GameNavbar(props) {
         >
           <ButtonGroup orientation="vertical">
             {Object.keys(maps.MHW).map((region) => {
-              //const regionData = maps.MHW[region];
               return (
                 <Button
                   disabled={hasGuessed}
@@ -171,21 +172,6 @@ function GameNavbar(props) {
   };
 
   const generateResult = () => {
-    const distance = Math.sqrt(
-      Math.pow(markerPosition.lat - question.lat, 2) +
-        Math.pow(markerPosition.lng - question.lng, 2)
-    );
-    const meters = (distance * 50) / 1.9;
-    let lostPoints = 500 * ((meters - 10) / 200);
-    if (lostPoints < 0) {
-      lostPoints = 0;
-    }
-    if (lostPoints > 500) {
-      lostPoints = 500;
-    }
-    const finalScore = 500 - lostPoints;
-    console.log("finalScore", finalScore);
-
     return (
       <Box>
         <Typography
@@ -200,7 +186,7 @@ function GameNavbar(props) {
           Result
         </Typography>
         <Typography variant="h6" margin={"10px"} textAlign={"center"}>
-          Distance: {meters}
+          Distance: {lastAnswerInMeters}
         </Typography>
         <Typography variant="h6" margin={"10px"} textAlign={"center"}>
           <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
@@ -223,7 +209,7 @@ function GameNavbar(props) {
             borderTop: "2px solid #2e7e0b",
           }}
         >
-          Score: {finalScore}
+          Score: {score[score.length - 1] || 0} {/*get last score*/}
         </Typography>
       </Box>
     );
@@ -235,7 +221,7 @@ function GameNavbar(props) {
       <Box className="guess-button-wrapper">
         {hasGuessed ? (
           <Button variant="contained" onClick={() => nextHandler()}>
-            {isLastQuestion ? "Finish" : "Next"}
+            {isLastQuestion() ? "Finish" : "Next"}
           </Button>
         ) : (
           <Button
