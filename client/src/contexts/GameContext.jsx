@@ -79,7 +79,7 @@ export const GameProvider = ({ children }, props) => {
         finalScore = finalScore / 3;
       }
     }
-    console.log("finalScore", finalScore);
+    finalScore = Math.floor(finalScore); // round to 3 decimal places
 
     setScore([...score, finalScore]);
   };

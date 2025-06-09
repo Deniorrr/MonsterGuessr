@@ -14,6 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GoodIcon from "@mui/icons-material/CheckBox";
 import WrongIcon from "@mui/icons-material/DisabledByDefault";
 import { useGame } from "../contexts/GameContext";
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
 
 GameNavbar.propTypes = {
   guess: PropTypes.func.isRequired,
@@ -41,6 +42,7 @@ function GameNavbar(props) {
   const [hasGuessed, setHasGuessed] = useState(false);
   const [isBigImageOpen, setIsBigImageOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageHovered, setIsImageHovered] = useState(false);
   const {
     score,
     lastAnswerInMeters,
@@ -76,7 +78,11 @@ function GameNavbar(props) {
     if (question == null) return null;
 
     return (
-      <figure>
+      <figure
+        className={isImageHovered ? "figure-hovered" : ""}
+        onMouseEnter={() => setIsImageHovered(true)}
+        onMouseLeave={() => setIsImageHovered(false)}
+      >
         {isLoading ? (
           <Box className="loading-text">
             <Typography>Loading...</Typography>
@@ -90,6 +96,9 @@ function GameNavbar(props) {
           onClick={handleOpenBigImage}
           onLoad={handleQuestionLoad}
         />
+        <span className="magnifier-overlay">
+          <ZoomInIcon fontSize="inherit" />
+        </span>
       </figure>
     );
   };
@@ -110,7 +119,7 @@ function GameNavbar(props) {
 
   const generateMapsNavigation = () => {
     return (
-      <Accordion id="maps-panel">
+      <Accordion id="maps-panel" defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography fontWeight={"bold"}>MH World</Typography>
         </AccordionSummary>
@@ -257,7 +266,7 @@ function GameNavbar(props) {
         generateResult()
       )}
       <Backdrop
-        sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
+        sx={(theme) => ({ zIndex: theme.zIndex.drawer + 3 })}
         open={isBigImageOpen}
         onClick={handleCloseBigImage}
       >

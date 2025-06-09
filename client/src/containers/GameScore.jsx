@@ -21,11 +21,13 @@ function GameScore() {
     return (
       <Box marginBottom={5}>
         <Typography variant="h4" textAlign={"center"} marginBottom={2}>
-          You have scored:
+          Your final score:
         </Typography>
         <Typography variant="h4" textAlign={"center"} marginBottom={2}>
-          {score.reduce((acc, curr) => acc + curr, 0).toFixed(3)} /{" "}
-          {score.length * 500}
+          <span style={{ fontWeight: "bold", color: "#2e7e0b" }}>
+            {score.reduce((acc, curr) => acc + curr, 0)}{" "}
+          </span>
+          / {score.length * 500}
         </Typography>
         <Button
           onClick={handleNextGameClick}
@@ -65,7 +67,7 @@ function GameScore() {
           <Box className="game-score-item">
             <Typography variant="h6">Score</Typography>
             <Typography variant="h5">
-              {score.reduce((acc, curr) => acc + curr, 0).toFixed(2)} /{" "}
+              {score.reduce((acc, curr) => acc + curr, 0)} /{" "}
               {score.length * 500}
             </Typography>
           </Box>
@@ -114,18 +116,25 @@ function GameScore() {
               Scoreboard
             </Typography>
           )}
-          <Grid
-            container
-            style={{
-              borderBottom: "1px solid #2e7e0b",
-            }}
-          >
-            <Grid item xs={6}>
+          <Grid container>
+            <Grid
+              item
+              xs={6}
+              style={{
+                borderBottom: "1px solid #2e7e0b",
+              }}
+            >
               <Typography variant="h6" textAlign={"center"} color="#bbbbbb">
                 Round
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid
+              item
+              xs={6}
+              style={{
+                borderBottom: "1px solid #2e7e0b",
+              }}
+            >
               <Typography variant="h6" textAlign={"center"} color="#bbbbbb">
                 Score
               </Typography>
@@ -133,21 +142,27 @@ function GameScore() {
           </Grid>
           {score.map((scoreItem, index) => {
             return (
-              <Grid
-                container
-                key={index}
-                style={{
-                  borderTop: "1px solid #2e7e0b",
-                }}
-              >
-                <Grid item xs={6}>
+              <Grid container key={index}>
+                <Grid
+                  item
+                  xs={6}
+                  style={{
+                    borderTop: "1px solid #2e7e0b",
+                  }}
+                >
                   <Typography variant="h6" textAlign={"center"}>
                     {index + 1}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid
+                  item
+                  xs={6}
+                  style={{
+                    borderTop: "1px solid #2e7e0b",
+                  }}
+                >
                   <Typography variant="h6" textAlign={"center"}>
-                    {scoreItem.toFixed(3)}
+                    {scoreItem}
                   </Typography>
                 </Grid>
               </Grid>
@@ -156,18 +171,18 @@ function GameScore() {
           <Grid
             container
             style={{
-              borderTop: "1px solid #2e7e0b",
               paddingTop: "16px",
             }}
+            display={isGameOver ? "none" : "flex"}
           >
             <Grid item xs={6}>
               <Typography variant="h5" textAlign={"center"}>
-                TOTAL:
+                TOTAL
               </Typography>
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h5" textAlign={"center"} fontWeight={"bold"}>
-                {score.reduce((acc, curr) => acc + curr, 0).toFixed(3)}
+                {score.reduce((acc, curr) => acc + curr, 0)}
               </Typography>
             </Grid>
           </Grid>
