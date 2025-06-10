@@ -1,10 +1,58 @@
 import { Container, Grid, Box, Typography, Paper } from "@mui/material";
-import Navbar from "../containers/Navbar";
+import { List, ListItem, Backdrop } from "@mui/material";
+import { Link } from "react-router-dom";
 import BackgroundImage from "../assets/background_dark.jpg";
+import { useState } from "react";
 
 import logo from "../assets/logo.png";
+import Privacy from "../containers/Privacy";
 
 function Home() {
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+
+  const pages = {
+    game: "Normal Game",
+    easy: "Easy Mode",
+    submit: "Submit Location",
+    HowToPlay: "How to Play",
+    privacy: "Privacy",
+  };
+
+  const generateNavItems = () => {
+    return Object.keys(pages).map((page, index) => {
+      const delay = `${index * 0.1}s`;
+      if (page === "privacy") {
+        return (
+          <ListItem
+            key={page}
+            style={{
+              opacity: 0,
+              animation: `fadeInLeft 0.4s forwards ${delay}`,
+            }}
+          >
+            <span
+              className="serif_font navItem"
+              style={{ cursor: "pointer" }}
+              onClick={() => setIsPrivacyOpen(true)}
+            >
+              {pages[page]}
+            </span>
+          </ListItem>
+        );
+      }
+      return (
+        <ListItem
+          key={page}
+          style={{ opacity: 0, animation: `fadeInLeft 0.4s forwards ${delay}` }}
+        >
+          <Link to={`/${page}`} className="serif_font">
+            {pages[page]}
+          </Link>
+        </ListItem>
+      );
+    });
+  };
+
   return (
     <Box
       className="container-wrapper"
@@ -20,7 +68,9 @@ function Home() {
       <Container fixed maxWidth="xl">
         <Grid container style={{ height: "100%" }}>
           <Grid item xs={6} display={"flex"} alignItems={"center"}>
-            <Navbar />
+            <nav>
+              <List dense={"dense"}>{generateNavItems()}</List>
+            </nav>
           </Grid>
 
           <Grid item xs={6} display={"flex"} alignItems={"center"}>
@@ -43,7 +93,7 @@ function Home() {
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  <h3>Monster Hunter Guessr</h3>
+                  <h3 className="title">Monster Hunter Guessr</h3>
                   <figure className="logo-wrapper">
                     <img src={logo} alt="logo" className="logo"></img>
                   </figure>
@@ -82,6 +132,17 @@ function Home() {
           © 2024 MH Guessr
         </Typography>
       </Box>
+      {/* Privacy backdrop */}
+      <Backdrop
+        style={{
+          cursor: "pointer",
+          backgroundColor: "rgba(0, 0, 0, 0.80)",
+        }}
+        open={isPrivacyOpen}
+        onClick={() => setIsPrivacyOpen(false)}
+      >
+        <Privacy />
+      </Backdrop>
     </Box>
   );
 }

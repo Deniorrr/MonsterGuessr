@@ -22,7 +22,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index element={<Home />} />
-            <Route path="about" element={<p>About</p>} />
+            <Route path="privacy" element={<p>PRIVACY</p>} />
             <Route path="game" element={<GamePage />} />
             <Route path="easy" element={<GamePage easyMode />} />
             <Route path="submit" element={<PositionSubmitSelector />} />
@@ -39,13 +39,13 @@ export default App;
 //MY KANBAN BOARD:
 
 //TODO:
-// create GameContext for storing everything!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // show result after guessing as a table selected location vs correct location
 // create around 10 actual locations on ancient forest and wildspire waste
 // test that thing
-// proper scoring system
 // animations: after guessing
 
 //DONE:
+// proper scoring system
+// create GameContext for storing everything!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // show better info after guessing: distance, correct location and layer
 // change map to correct location after guessing
