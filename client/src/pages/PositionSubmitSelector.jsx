@@ -46,11 +46,9 @@ function PositionSubmitSelector() {
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [easyMode, setEasyMode] = useState(false);
-  //const [question, setQuestion] = useState(null);
   const bounds = [
     [0, 0], // Top-left corner
-    //[9.79, 11.03], // Bottom-right corner
-    [9, 16],
+    [23.5, 23],
   ];
 
   const zoom_level = 7;
@@ -198,11 +196,11 @@ function PositionSubmitSelector() {
             </Box>
           ) : null}
           <MapContainer
-            center={[4.5, 8]}
+            center={[10, 10]}
             zoom={zoom_level}
             scrollWheelZoom={true}
-            minZoom={7}
-            maxZoom={9}
+            minZoom={6}
+            maxZoom={8}
             maxBounds={bounds}
           >
             <ImageOverlay

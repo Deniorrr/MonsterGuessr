@@ -6,9 +6,11 @@ import { useState } from "react";
 
 import logo from "../assets/logo.png";
 import Privacy from "../containers/Privacy";
+import HowToPlay from "../containers/HowToPlay";
 
 function Home() {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
 
   const pages = {
     game: "Normal Game",
@@ -34,6 +36,25 @@ function Home() {
               className="serif_font navItem"
               style={{ cursor: "pointer" }}
               onClick={() => setIsPrivacyOpen(true)}
+            >
+              {pages[page]}
+            </span>
+          </ListItem>
+        );
+      }
+      if (page === "HowToPlay") {
+        return (
+          <ListItem
+            key={page}
+            style={{
+              opacity: 0,
+              animation: `fadeInLeft 0.4s forwards ${delay}`,
+            }}
+          >
+            <span
+              className="serif_font navItem"
+              style={{ cursor: "pointer" }}
+              onClick={() => setIsHowToPlayOpen(true)}
             >
               {pages[page]}
             </span>
@@ -79,15 +100,7 @@ function Home() {
               width={"100%"}
               style={{ opacity: 0, animation: `fadeInTop 0.5s forwards` }}
             >
-              <Paper
-                style={{
-                  padding: "1rem",
-                  textAlign: "center",
-                  backgroundColor: "rgba(0, 0, 0, 0.8)",
-                  border: "2px solid #2e7e0b",
-                  boxShadow: "0px 2px 15px 0px #2e7e0b",
-                }}
-              >
+              <Paper className="home-header-paper">
                 <Box
                   display={"flex"}
                   justifyContent={"center"}
@@ -98,20 +111,16 @@ function Home() {
                     <img src={logo} alt="logo" className="logo"></img>
                   </figure>
                 </Box>
-                <Typography variant={"body1"} padding={3} paddingTop={0}>
+                <Typography variant={"body1"}>
                   Welcome to Monster Hunter Guessr! Test your knowledge of
-                  <span style={{ fontWeight: "bold" }}>
+                  <span style={{ fontWeight: "bold", color: "#4fac27" }}>
                     &nbsp;Monster Hunter World&nbsp;
                   </span>
                   by guessing the location of the screenshot. The closer your
-                  guess, the more points you earn. Good luck!
+                  guess, the more points you earn. Happy guessing!
                 </Typography>
-                <Typography variant={"body1"} padding={3} paddingTop={0}>
-                  This is a fan made project and is not affiliated with Capcom
-                  nor Geoguessr.
-                </Typography>
-                <Typography variant={"body1"} padding={3} paddingTop={0}>
-                  Project created by: Deniorr
+                <Typography variant={"body1"} marginTop={4}>
+                  Author: Deniorr
                 </Typography>
               </Paper>
             </Box>
@@ -142,6 +151,17 @@ function Home() {
         onClick={() => setIsPrivacyOpen(false)}
       >
         <Privacy />
+      </Backdrop>
+      {/* How to play backdrop */}
+      <Backdrop
+        style={{
+          cursor: "pointer",
+          backgroundColor: "rgba(0, 0, 0, 0.80)",
+        }}
+        open={isHowToPlayOpen}
+        onClick={() => setIsHowToPlayOpen(false)}
+      >
+        <HowToPlay />
       </Backdrop>
     </Box>
   );

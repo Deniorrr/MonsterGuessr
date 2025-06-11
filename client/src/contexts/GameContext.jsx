@@ -76,7 +76,7 @@ export const GameProvider = ({ children }, props) => {
       }
       if (Math.abs(selectedPosition.layer - answer.layer) == 2) {
         // if layer is wrong by 2, third the score
-        finalScore = finalScore / 3;
+        finalScore = finalScore / 4;
       }
     }
     finalScore = Math.floor(finalScore); // round to 3 decimal places

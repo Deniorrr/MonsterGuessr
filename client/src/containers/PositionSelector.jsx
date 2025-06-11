@@ -61,7 +61,6 @@ function PositionSelector() {
 
   const bounds = [
     [0, 0], // Top-left corner
-    //[9.79, 11.03], // Bottom-right corner
     [23.5, 23],
   ];
 
