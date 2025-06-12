@@ -15,11 +15,22 @@ function Home() {
   const pages = {
     game: "Normal Game",
     easy: "Easy Mode",
-    submit: "Submit Location",
+    //submit: "Submit Location",
     HowToPlay: "How to Play",
     privacy: "Privacy",
   };
+  // const user = { id: "deniorrr", isAdmin: true, canSeeSubmit: true };
+  // localStorage.setItem("user", JSON.stringify(user));
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem("user"));
+  } catch (e) {
+    user = null;
+  }
 
+  if (user && user.canSeeSubmit) {
+    pages.submit = "Submit Location";
+  }
   const generateNavItems = () => {
     return Object.keys(pages).map((page, index) => {
       const delay = `${index * 0.1}s`;

@@ -195,20 +195,30 @@ function GameNavbar(props) {
           Result
         </Typography>
         <Typography variant="h6" margin={"10px"} textAlign={"center"}>
-          Distance: {lastAnswerInMeters}
-        </Typography>
-        <Typography variant="h6" margin={"10px"} textAlign={"center"}>
           <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-            <Box>Correct Region: {question.mapName}</Box>
+            <Box>Region: {question.mapName}</Box>
             {generateIcon(selectedRegion.name === question.mapName)}
           </Box>
         </Typography>
-        <Typography variant="h6" margin={"10px"} textAlign={"center"}>
-          <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-            <Box>Correct Layer: {question.layer}</Box>
-            {generateIcon(layer + 1 === question.layer)}
-          </Box>
-        </Typography>
+        {selectedRegion.name === question.mapName ? (
+          <>
+            <Typography variant="h6" margin={"10px"} textAlign={"center"}>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Box>Layer: {question.layer}</Box>
+                {generateIcon(layer + 1 === question.layer)}
+              </Box>
+            </Typography>
+            <Typography variant="h6" margin={"10px"} textAlign={"center"}>
+              Distance: {lastAnswerInMeters.toFixed(0)} meters
+            </Typography>
+          </>
+        ) : (
+          ""
+        )}
         <Typography
           variant="h6"
           margin={"10px"}

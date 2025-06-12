@@ -4,7 +4,7 @@ import {
   Marker,
   useMapEvents,
 } from "react-leaflet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import maps from "../data/mapImages";
 import {
@@ -25,8 +25,21 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MuiFileInput } from "mui-file-input";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PositionSubmitSelector() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let user = null;
+    try {
+      user = JSON.parse(localStorage.getItem("user"));
+    } catch {
+      user = null;
+    }
+    if (!user || !user.isAdmin) {
+      navigate("/");
+    }
+  }, []);
   const [markerPosition, setMarkerPosition] = useState(null);
   const [selectedLayer, setSelectedLayer] = useState(
     maps.MHW.ancient_forest.maps[0]

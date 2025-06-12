@@ -36,16 +36,20 @@ function App() {
 
 export default App;
 
-//MY KANBAN BOARD:
+//MY KANBAN BOARD :)
+
+//NEXT:
+// secure the submit location page on backend!!!!!!!!!!
 
 //TODO:
-// show result after guessing as a table selected location vs correct location
 // create around 10 actual locations on ancient forest and wildspire waste
 // test that thing
 // animations: after guessing
 
 //DONE:
+// hide submit location for normal users
 // proper scoring system
-// create GameContext for storing everything!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// show result after guessing as a table selected location vs correct location
+// create GameContext for storing everything
 // show better info after guessing: distance, correct location and layer
 // change map to correct location after guessing
