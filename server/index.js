@@ -1,10 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-import fs from "fs";
-import path from "path";
 import { serialize, deserialize } from "bson";
-import { fileURLToPath } from "url";
 import mysql from "mysql2";
 import http from "http";
 
@@ -82,7 +79,14 @@ app.get("/screenseasymode", async (req, res) => {
 });
 
 app.post("/submit", upload.single("file"), async (req, res) => {
-  const { region, layer, lat, lng, easyMode } = req.body;
+  const { region, layer, lat, lng, easyMode, localKey, passwd } = req.body;
+  console.log(localKey, passwd);
+  //temporal
+  //if localKey !== ""
+  if (toString(localKey) == "12345" && toString(passwd) == "67890") {
+    // if (localKey !== process.env.LOCAL_KEY && passwd !== process.env.PASSWD) {
+    return res.status(403).send("Forbidden: Invalid credentials");
+  }
   const file = req.file;
 
   if (!file) {
@@ -120,28 +124,3 @@ const pushScreen = (
     }
   );
 };
-
-//to służyło do wrzucania screenów do bazy danych
-// import screenshotsData from "./data/screenshots/screenshotsData.js";
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// screenshotsData.forEach((screenshot) => {
-//   const screenName = screenshot.screenName;
-//   const gameName = screenshot.gameName;
-//   const mapName = screenshot.mapName;
-//   const layer = screenshot.layer;
-//   const lat = screenshot.location.lat;
-//   const lng = screenshot.location.lng;
-//   const imagePath = path.join(__dirname, "data", "screenshots", screenName);
-//   fs.readFile(imagePath, (err, imageData) => {
-//     if (err) {
-//       console.log("Error reading image file:", err);
-//       return;
-//     }
-
-//     const bsonData = serialize({ imageData });
-//     pushScreen(bsonData, gameName, mapName, layer, lat, lng);
-//   });
-// });

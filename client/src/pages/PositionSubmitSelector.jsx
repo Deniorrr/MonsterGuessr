@@ -59,6 +59,7 @@ function PositionSubmitSelector() {
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [easyMode, setEasyMode] = useState(false);
+  const [passwd, setPasswd] = useState("");
   const bounds = [
     [0, 0], // Top-left corner
     [23.5, 23],
@@ -79,6 +80,7 @@ function PositionSubmitSelector() {
   };
 
   const submitHandler = () => {
+    const myID = localStorage.getItem("myID");
     const formData = new FormData();
     formData.append("file", file);
     formData.append("region", selectedRegion.name);
@@ -86,6 +88,8 @@ function PositionSubmitSelector() {
     formData.append("lat", markerPosition.lat);
     formData.append("lng", markerPosition.lng);
     formData.append("easyMode", easyMode);
+    formData.append("localKey", myID);
+    formData.append("passwd", passwd);
     axios
       .post("http://localhost:3001/submit", formData, {
         headers: {
@@ -288,7 +292,28 @@ function PositionSubmitSelector() {
             <Box display={"flex"} justifyContent={"center"}>
               {generateLayersNavigation()}
             </Box>
-
+            <Typography
+              variant="h5"
+              margin={"10px"}
+              marginTop={"2em"}
+              textAlign={"center"}
+            >
+              Password
+            </Typography>
+            <Box display={"flex"} justifyContent={"center"}>
+              <input
+                type="password"
+                value={passwd}
+                onChange={(e) => setPasswd(e.target.value)}
+                placeholder="Enter password"
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  borderRadius: "4px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </Box>
             <Button
               variant="contained"
               style={{ width: "100%", marginTop: "2em" }}

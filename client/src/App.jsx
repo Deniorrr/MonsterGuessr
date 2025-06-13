@@ -42,6 +42,10 @@ export default App;
 // secure the submit location page on backend!!!!!!!!!!
 
 //TODO:
+// add actual codes for admins
+//
+// store the first 2 letters of userID in db : add column to db
+// check overall security of the app, check XSS, CSRF, CORS, SQL injection, etc.
 // create around 10 actual locations on ancient forest and wildspire waste
 // test that thing
 // animations: after guessing
