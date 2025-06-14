@@ -19,13 +19,10 @@ function Home() {
     HowToPlay: "How to Play",
     privacy: "Privacy",
   };
-  const user1 = { id: "deniorrr", isAdmin: true, canSeeSubmit: true };
-  localStorage.setItem("user", JSON.stringify(user1));
-  localStorage.setItem("myID", 12345);
   let user = null;
   try {
     user = JSON.parse(localStorage.getItem("user"));
-  } catch (e) {
+  } catch {
     user = null;
   }
 

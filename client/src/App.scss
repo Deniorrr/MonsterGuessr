@@ -108,6 +108,16 @@ body {
       margin-bottom: 8px;
       padding-left: 8px;
     }
+    ol {
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      font-size: 1.125rem;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-left: 24px;
+      li {
+        margin-bottom: 12px;
+      }
+    }
   }
 }
 

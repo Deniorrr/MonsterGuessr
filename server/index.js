@@ -83,8 +83,10 @@ app.post("/submit", upload.single("file"), async (req, res) => {
   console.log(localKey, passwd);
   //temporal
   //if localKey !== ""
-  if (toString(localKey) == "12345" && toString(passwd) == "67890") {
-    // if (localKey !== process.env.LOCAL_KEY && passwd !== process.env.PASSWD) {
+  if (
+    (localKey !== process.env.ADMIN1 && localKey !== process.env.ADMIN2) ||
+    passwd !== process.env.PASSWD
+  ) {
     return res.status(403).send("Forbidden: Invalid credentials");
   }
   const file = req.file;
@@ -94,8 +96,16 @@ app.post("/submit", upload.single("file"), async (req, res) => {
   }
 
   const screenData = serialize({ imageData: file.buffer });
-
-  pushScreen(screenData, "MHW", region, layer, lat, lng, easyMode);
+  pushScreen(
+    screenData,
+    "MHW",
+    region,
+    layer,
+    lat,
+    lng,
+    easyMode,
+    localKey.slice(0, 3)
+  );
   res.send("Screen submitted");
 });
 
@@ -109,13 +119,14 @@ const pushScreen = (
   layer,
   lat,
   lng,
-  easyMode
+  easyMode,
+  localKey
 ) => {
   easyMode = easyMode === "true" ? 1 : 0;
-  const sql = `INSERT INTO screenshots (screenData, gameName, mapName, layer, lat, lng, easyMode) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO screenshots (screenData, gameName, mapName, layer, lat, lng, easyMode, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   db.query(
     sql,
-    [screenData, gameName, mapName, layer, lat, lng, easyMode],
+    [screenData, gameName, mapName, layer, lat, lng, easyMode, localKey],
     (err, result) => {
       if (err) {
         console.log("EROOR!?!?!", err);

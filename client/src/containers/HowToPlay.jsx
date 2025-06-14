@@ -19,26 +19,20 @@ function Privacy() {
             after which your total score is displayed.
           </Typography>
           <Typography variant="h5">How to play:</Typography>
-          <Typography variant="body1">
-            <ol style={{ paddingLeft: 24 }}>
-              <li>Inspect the screenshot</li>
-              <li>
-                Select the map and layer where you think the screenshot was
-                taken
-              </li>
-              <li>Select a point on the map that you think is the location</li>
-              <li>
-                If you are satisfied with your choice, click the{" "}
-                <span style={{ fontWeight: "bold", color: "#4fac27" }}>
-                  Guess
-                </span>{" "}
-                button
-              </li>
-              <Typography style={{ marginLeft: "-24px" }}>
-                After all 5 rounds, your total score will be displayed
-              </Typography>
-            </ol>
-          </Typography>
+          <ol>
+            <li>Inspect the screenshot</li>
+            <li>
+              Select the map and layer where you think the screenshot was taken
+            </li>
+            <li>Select a point on the map that you think is the location</li>
+            <li>
+              If you are satisfied with your choice, click the{" "}
+              <span style={{ fontWeight: "bold", color: "#4fac27" }}>
+                Guess
+              </span>{" "}
+              button
+            </li>
+          </ol>
           <Typography variant="h5">Scoring system</Typography>
           <Typography variant="body1">
             The scoring is based on the distance between your guess and the
