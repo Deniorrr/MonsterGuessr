@@ -10,6 +10,15 @@ import cors from "cors";
 import multer from "multer";
 import validator from "validator";
 
+import rateLimit from "express-rate-limit";
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300, // Limit each IP to 300 requests per windowMs
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: "Too many requests, please try again later.",
+});
 const app = express();
 
 app.use(cors());
@@ -51,8 +60,6 @@ app.use((req, res, next) => {
 
 const server = http.createServer(app);
 
-console.log(process.env.DB_HOST);
-
 const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -61,7 +68,10 @@ const db = mysql.createPool({
 });
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+});
 
 app.get("/screens", async (req, res) => {
   const sql = `SELECT * FROM screenshots ORDER BY RAND() LIMIT 3`;
@@ -88,7 +98,6 @@ app.get("/screens", async (req, res) => {
 });
 
 app.get("/screenseasymode", async (req, res) => {
-  console.log("easy mode");
   const sql = `SELECT * FROM screenshots WHERE easyMode = true ORDER BY RAND() LIMIT 3`;
   db.query(sql, (err, results) => {
     if (err) {
@@ -112,7 +121,8 @@ app.get("/screenseasymode", async (req, res) => {
   });
 });
 
-app.post("/submit", upload.single("file"), async (req, res) => {
+app.post("/submit", authLimiter, upload.single("file"), async (req, res) => {
+  // authLimiter added to limit requests and prevent brute force attacks
   let { region, layer, lat, lng, easyMode, localKey, passwd } = req.body;
   //XSS just in case
   region = validator.escape(region || "");
@@ -168,7 +178,8 @@ const pushScreen = (
     [screenData, gameName, mapName, layer, lat, lng, easyMode, localKey],
     (err, result) => {
       if (err) {
-        console.log("EROOR!?!?!", err);
+        console.error("Error inserting screenshot:", err);
+        return;
       }
       console.log(result);
     }
