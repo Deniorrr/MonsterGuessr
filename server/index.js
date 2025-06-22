@@ -8,12 +8,46 @@ import http from "http";
 import express from "express";
 import cors from "cors";
 import multer from "multer";
+import validator from "validator";
 
 const app = express();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://mhguessr.com", // Replace with your actual domain
+];
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  // Only allow requests with an allowed Origin or no Origin (e.g., curl, server-to-server)
+  if (origin && !allowedOrigins.includes(origin)) {
+    return res.status(403).send("Forbidden: Origin not allowed");
+  }
+
+  // Set CORS headers for allowed origins
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Vary", "Origin");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET,POST,PUT,DELETE,OPTIONS"
+    );
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  }
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
 
 const server = http.createServer(app);
 
@@ -79,10 +113,15 @@ app.get("/screenseasymode", async (req, res) => {
 });
 
 app.post("/submit", upload.single("file"), async (req, res) => {
-  const { region, layer, lat, lng, easyMode, localKey, passwd } = req.body;
-  console.log(localKey, passwd);
-  //temporal
-  //if localKey !== ""
+  let { region, layer, lat, lng, easyMode, localKey, passwd } = req.body;
+  //XSS just in case
+  region = validator.escape(region || "");
+  layer = validator.escape(layer || "");
+  lat = validator.toFloat(lat + "") || 0;
+  lng = validator.toFloat(lng + "") || 0;
+  easyMode = easyMode === "true" ? 1 : 0;
+  localKey = validator.escape(localKey || "");
+
   if (
     (localKey !== process.env.ADMIN1 && localKey !== process.env.ADMIN2) ||
     passwd !== process.env.PASSWD

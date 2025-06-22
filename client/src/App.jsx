@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import GamePage from "./pages/GamePage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import PositionSubmitSelector from "./pages/PositionSubmitSelector";
+import PositionSubmitSelector from "./pages/SubmitPosition";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -51,6 +51,7 @@ export default App;
 // animations: after guessing
 
 //DONE:
+// checked XSS, CSRF, CORS and SQL injection
 // hide submit location for normal users
 // proper scoring system
 // show result after guessing as a table selected location vs correct location
