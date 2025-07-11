@@ -44,17 +44,16 @@ export default App;
 //TODO:
 // add actual codes for admins
 //
-// dont change the map after submitting a location
-// display the image of the location while submitting
-// can drag image to submit location
 
-// store the first 2 letters of userID in db : add column to db
-// check overall security of the app, check XSS, CSRF, CORS, SQL injection, etc.
-// create around 10 actual locations on ancient forest and wildspire waste
 // test that thing
 // animations: after guessing
 
 //DONE:
+// display the image of the location while submitting
+// can drag image to submit location
+// dont change the map after submitting a location
+// create around 10 actual locations on ancient forest and wildspire waste
+// store the first 2 letters of userID in db : add column to db
 // preload all images on start to RAM
 // checked XSS, CSRF, CORS and SQL injection
 // hide submit location for normal users

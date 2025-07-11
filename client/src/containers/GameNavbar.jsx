@@ -137,9 +137,14 @@ function GameNavbar(props) {
                   disabled={hasGuessed}
                   key={region}
                   onClick={() => handleChange(region)}
-                  variant={
-                    selectedRegionName === region ? "contained" : "outlined"
-                  }
+                  style={{
+                    border: `2px solid ${maps.MHW[region].color}`,
+                    marginBottom: "1px",
+                    backgroundColor:
+                      selectedRegionName === region
+                        ? `${maps.MHW[region].color}55`
+                        : "#ffffff00",
+                  }}
                 >
                   {maps.MHW[region].name}
                 </Button>

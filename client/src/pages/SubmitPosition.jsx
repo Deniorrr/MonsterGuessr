@@ -4,7 +4,7 @@ import {
   Marker,
   useMapEvents,
 } from "react-leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import maps from "../data/mapImages";
 import {
@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 
 function PositionSubmitSelector() {
   const navigate = useNavigate();
+
   useEffect(() => {
     let user = null;
     try {
@@ -40,6 +41,45 @@ function PositionSubmitSelector() {
       navigate("/");
     }
   }, []);
+
+  useEffect(() => {
+    const handleDragOver = (e) => {
+      e.preventDefault();
+    };
+    const handleDrop = (e) => {
+      e.preventDefault();
+    };
+
+    window.addEventListener("dragover", handleDragOver);
+    window.addEventListener("drop", handleDrop);
+
+    return () => {
+      window.removeEventListener("dragover", handleDragOver);
+      window.removeEventListener("drop", handleDrop);
+    };
+  }, []);
+
+  const [isDragActive, setIsDragActive] = useState(false);
+  const dropRef = useRef();
+
+  const handleDropZoneDragOver = (e) => {
+    e.preventDefault();
+    setIsDragActive(true);
+  };
+
+  const handleDropZoneDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragActive(false);
+  };
+
+  const handleDropZoneDrop = (e) => {
+    e.preventDefault();
+    setIsDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
+
   const [markerPosition, setMarkerPosition] = useState(null);
   const [selectedLayer, setSelectedLayer] = useState(
     maps.MHW.ancient_forest.maps[0]
@@ -120,12 +160,11 @@ function PositionSubmitSelector() {
   const resetData = () => {
     //reset oprócz pliku, żeby wiedzieć jaki dodano ostatnio
     setMarkerPosition(null);
-    setSelectedRegion(maps.MHW.ancient_forest);
-    setSelectedLayer(maps.MHW.ancient_forest.maps[0]);
-    setLayerIndex(0);
+    //setSelectedRegion(maps.MHW.ancient_forest);
+    //setSelectedLayer(maps.MHW.ancient_forest.maps[0]);
+    //setLayerIndex(0);
     //setFile(null);
     setEasyMode(false);
-    console.log("Data reset");
   };
 
   const switchMaps = (region) => {
@@ -161,10 +200,6 @@ function PositionSubmitSelector() {
     }
   };
 
-  const handleFileSelect = (value) => {
-    setFile(value);
-  };
-
   const generateMapsNavigation = () => {
     return (
       <Accordion>
@@ -187,7 +222,12 @@ function PositionSubmitSelector() {
                 <Button
                   key={region}
                   onClick={() => handleChange(region)}
-                  variant={selectedRegion === region ? "contained" : "outlined"}
+                  style={{
+                    border: `2px solid ${maps.MHW[region].color}`,
+                    marginBottom: "1px",
+                    backgroundColor: `${maps.MHW[region].color}55`,
+                    color: "white",
+                  }}
                 >
                   {maps.MHW[region].name}
                 </Button>
@@ -218,7 +258,7 @@ function PositionSubmitSelector() {
   return (
     <div className="game-container">
       <Grid container style={{ height: "100%" }}>
-        <Grid row item xs={9}>
+        <Grid row item xs={7}>
           {isLoading ? (
             <Box className="loading-text">
               <Typography variant="h5">Loading...</Typography>
@@ -240,7 +280,7 @@ function PositionSubmitSelector() {
             <LocationMarker />
           </MapContainer>
         </Grid>
-        <Grid row item xs={3} className="aside-bar">
+        <Grid row item xs={5} className="aside-bar">
           {
             //FORM
           }
@@ -256,7 +296,7 @@ function PositionSubmitSelector() {
             <Box display={"flex"} justifyContent={"center"}>
               <MuiFileInput
                 value={file}
-                onChange={handleFileSelect}
+                onChange={setFile}
                 placeholder="Insert an image"
                 InputProps={{
                   startAdornment: (
@@ -268,17 +308,52 @@ function PositionSubmitSelector() {
               />
             </Box>
             <Box
+              ref={dropRef}
+              onDragOver={handleDropZoneDragOver}
+              onDragLeave={handleDropZoneDragLeave}
+              onDrop={handleDropZoneDrop}
+              sx={{
+                border: isDragActive ? "2px solid #4fac27" : "2px dashed #ccc",
+                borderRadius: "8px",
+                padding: "1.5em",
+                textAlign: "center",
+                margin: "1em 3em",
+                marginTop: "0em",
+                cursor: "pointer",
+              }}
+            >
+              {file ? (
+                <Typography variant="body1">{file.name}</Typography>
+              ) : (
+                <Typography variant="body2" color="textSecondary">
+                  Drag & drop image
+                </Typography>
+              )}
+            </Box>
+            {file && file.type.startsWith("image/") && (
+              <Box display="flex" justifyContent="center" marginTop={2}>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="Preview"
+                  className="submit-image-preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: 400,
+                  }}
+                  onLoad={(e) => URL.revokeObjectURL(e.target.src)} // Clean up memory
+                />
+              </Box>
+            )}
+            <Box
               display={"flex"}
               justifyContent={"center"}
               alignItems={"center"}
-              marginTop={"2em"}
             >
-              <Typography variant="h5" margin={"10px"} textAlign={"center"}>
+              <Typography variant="h5" textAlign={"center"}>
                 Easy mode
               </Typography>
               <Checkbox
                 onChange={() => {
-                  console.log("Switching to ", !easyMode);
                   setEasyMode(!easyMode);
                 }}
                 checked={easyMode}
@@ -287,7 +362,7 @@ function PositionSubmitSelector() {
             <Typography
               variant="h5"
               margin={"10px"}
-              marginTop={"2em"}
+              marginTop={"1em"}
               textAlign={"center"}
             >
               Region
@@ -296,7 +371,7 @@ function PositionSubmitSelector() {
             <Typography
               variant="h5"
               margin={"10px"}
-              marginTop={"2em"}
+              marginTop={"1em"}
               textAlign={"center"}
             >
               Layer
@@ -307,7 +382,7 @@ function PositionSubmitSelector() {
             <Typography
               variant="h5"
               margin={"10px"}
-              marginTop={"2em"}
+              marginTop={"1em"}
               textAlign={"center"}
             >
               Password
