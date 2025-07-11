@@ -41,7 +41,7 @@ function Privacy() {
           </Typography>
           <Typography variant="body1">
             The maximum score for each round is 500 points. After guessing the
-            wrong layer by 1 or 2, the score is reduced by 50% and 75%
+            wrong layer by 1 or 2, the score is reduced by 50% or 75%
             respectively. Guessing the wrong map results in 0 points.
           </Typography>
         </Grid>

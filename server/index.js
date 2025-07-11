@@ -12,6 +12,8 @@ import validator from "validator";
 
 import rateLimit from "express-rate-limit";
 
+const QUESTION_AMOUNT = 5; // Number of questions to fetch
+
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 300, // Limit each IP to 300 requests per windowMs
@@ -74,7 +76,7 @@ const upload = multer({
 });
 
 app.get("/screens", async (req, res) => {
-  const sql = `SELECT * FROM screenshots ORDER BY RAND() LIMIT 3`;
+  const sql = `SELECT * FROM screenshots ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
   db.query(sql, (err, results) => {
     if (err) {
       console.log("Error fetching random screenshots:", err);
@@ -98,7 +100,7 @@ app.get("/screens", async (req, res) => {
 });
 
 app.get("/screenseasymode", async (req, res) => {
-  const sql = `SELECT * FROM screenshots WHERE easyMode = true ORDER BY RAND() LIMIT 3`;
+  const sql = `SELECT * FROM screenshots WHERE easyMode = true ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
   db.query(sql, (err, results) => {
     if (err) {
       console.log("Error fetching random screenshots:", err);

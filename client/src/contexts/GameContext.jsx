@@ -19,8 +19,9 @@ export const GameProvider = ({ children }, props) => {
   const [score, setScore] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
   const [questions, setQuestions] = useState([]);
-  const QUESTION_AMOUNT = 3;
   const [lastAnswerInMeters, setLastAnswerInMeters] = useState(0);
+
+  const QUESTION_AMOUNT = 5;
 
   const easyMode = props.easyMode || false;
 

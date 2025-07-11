@@ -5,7 +5,7 @@ import {
   useMapEvents,
   Polyline,
 } from "react-leaflet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import maps from "../data/mapImages";
 import GameNavbar from "./GameNavbar";
@@ -61,10 +61,22 @@ function PositionSelector() {
 
   const bounds = [
     [0, 0], // Top-left corner
-    [23.5, 23],
+    [23, 23],
   ];
 
   const zoom_level = 7;
+
+  // preload the map images
+  useEffect(() => {
+    const imagesToPreload = Object.values(maps.MHW).flatMap(
+      (region) => region.maps
+    );
+
+    imagesToPreload.forEach((url) => {
+      const img = new window.Image();
+      img.src = url;
+    });
+  }, []);
 
   const LocationMarker = () => {
     useMapEvents({
