@@ -76,7 +76,7 @@ const upload = multer({
 });
 
 app.get("/screens", async (req, res) => {
-  const sql = `SELECT * FROM screenshots ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
+  const sql = `SELECT idscreenshots, screenData, gameName, mapName, layer, lat, lng, easyMode FROM screenshots ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
   db.query(sql, (err, results) => {
     if (err) {
       console.log("Error fetching random screenshots:", err);
@@ -100,7 +100,7 @@ app.get("/screens", async (req, res) => {
 });
 
 app.get("/screenseasymode", async (req, res) => {
-  const sql = `SELECT * FROM screenshots WHERE easyMode = true ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
+  const sql = `SELECT idscreenshots, screenData, gameName, mapName, layer, lat, lng, easyMode FROM screenshots WHERE easyMode = true ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
   db.query(sql, (err, results) => {
     if (err) {
       console.log("Error fetching random screenshots:", err);

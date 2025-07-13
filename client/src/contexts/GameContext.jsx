@@ -53,6 +53,15 @@ export const GameProvider = ({ children }, props) => {
     setActiveQuestion(question);
   };
 
+  const printCurrentQuestionId = () => {
+    console.log("Current question ID:", activeQuestion.idscreenshots);
+    return activeQuestion.idscreenshots;
+  };
+  // attaching function to window for debugging purposes
+  if (typeof window !== "undefined") {
+    window.printCurrentQuestionId = printCurrentQuestionId;
+  }
+
   const guessPosition = (selectedPosition, answer) => {
     const distance = Math.sqrt(
       Math.pow(selectedPosition.markerPosition.lat - answer.location.lat, 2) +

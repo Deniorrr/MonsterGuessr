@@ -76,6 +76,13 @@ function PositionSelector() {
       const img = new window.Image();
       img.src = url;
     });
+
+    // preload guessing marker icons
+    const preloadIcons = [customIcon, mapPointer2];
+    preloadIcons.forEach((iconUrl) => {
+      const icon = new window.Image();
+      icon.src = iconUrl;
+    });
   }, []);
 
   const LocationMarker = () => {
@@ -114,7 +121,6 @@ function PositionSelector() {
     //showResult(); // local or child component
 
     const solution = question.location;
-    console.log("solution", question.mapName, selectedRegion);
     if (question.mapName === selectedRegion.name)
       setPolylineCoords([markerPosition, solution]);
     else {
