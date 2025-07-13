@@ -2,14 +2,27 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 import { serialize, deserialize } from "bson";
-import mysql from "mysql2";
 import http from "http";
+import sql from "mssql";
+
+const config = {
+  server: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  options: {
+    encrypt: true,
+    trustServerCertificate: false,
+    authentication: {
+      type: "azure-active-directory-password",
+    },
+  },
+};
 
 import express from "express";
 import cors from "cors";
 import multer from "multer";
 import validator from "validator";
-
 import rateLimit from "express-rate-limit";
 
 const QUESTION_AMOUNT = 5; // Number of questions to fetch
@@ -17,8 +30,8 @@ const QUESTION_AMOUNT = 5; // Number of questions to fetch
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 300, // Limit each IP to 300 requests per windowMs
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  standardHeaders: true,
+  legacyHeaders: false,
   message: "Too many requests, please try again later.",
 });
 const app = express();
@@ -34,13 +47,9 @@ const allowedOrigins = [
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-
-  // Only allow requests with an allowed Origin or no Origin (e.g., curl, server-to-server)
   if (origin && !allowedOrigins.includes(origin)) {
     return res.status(403).send("Forbidden: Origin not allowed");
   }
-
-  // Set CORS headers for allowed origins
   if (origin && allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -51,23 +60,13 @@ app.use((req, res, next) => {
     );
     res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
   }
-
-  // Handle preflight requests
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
   }
-
   next();
 });
 
 const server = http.createServer(app);
-
-const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-});
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -75,20 +74,20 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
 });
 
+// GET random screenshots
 app.get("/screens", async (req, res) => {
-  const sql = `SELECT idscreenshots, screenData, gameName, mapName, layer, lat, lng, easyMode FROM screenshots ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.log("Error fetching random screenshots:", err);
-      res.status(500).send("Error fetching random screenshots");
-      return;
-    }
-    if (results.length > 0) {
-      const screens = results.map((result) => {
-        const screenData = result.screenData;
-        const imageData = deserialize(screenData).imageData;
+  try {
+    const pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .query(
+        `SELECT TOP (${QUESTION_AMOUNT}) idscreenshots, screenData, gameName, mapName, layer, lat, lng, easyMode FROM screenshots ORDER BY NEWID()`
+      );
+    if (result.recordset.length > 0) {
+      const screens = result.recordset.map((row) => {
+        const imageData = deserialize(row.screenData).imageData;
         return {
-          ...result,
+          ...row,
           imageData,
         };
       });
@@ -96,23 +95,26 @@ app.get("/screens", async (req, res) => {
     } else {
       res.status(404).send("No screenshots found");
     }
-  });
+  } catch (err) {
+    console.log("Error fetching random screenshots:", err);
+    res.status(500).send("Error fetching random screenshots");
+  }
 });
 
+// GET random screenshots (easy mode)
 app.get("/screenseasymode", async (req, res) => {
-  const sql = `SELECT idscreenshots, screenData, gameName, mapName, layer, lat, lng, easyMode FROM screenshots WHERE easyMode = true ORDER BY RAND() LIMIT ${QUESTION_AMOUNT}`;
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.log("Error fetching random screenshots:", err);
-      res.status(500).send("Error fetching random screenshots");
-      return;
-    }
-    if (results.length > 0) {
-      const screens = results.map((result) => {
-        const screenData = result.screenData;
-        const imageData = deserialize(screenData).imageData;
+  try {
+    const pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .query(
+        `SELECT TOP (${QUESTION_AMOUNT}) idscreenshots, screenData, gameName, mapName, layer, lat, lng, easyMode FROM screenshots WHERE easyMode = 1 ORDER BY NEWID()`
+      );
+    if (result.recordset.length > 0) {
+      const screens = result.recordset.map((row) => {
+        const imageData = deserialize(row.screenData).imageData;
         return {
-          ...result,
+          ...row,
           imageData,
         };
       });
@@ -120,13 +122,15 @@ app.get("/screenseasymode", async (req, res) => {
     } else {
       res.status(404).send("No screenshots found");
     }
-  });
+  } catch (err) {
+    console.log("Error fetching random screenshots:", err);
+    res.status(500).send("Error fetching random screenshots");
+  }
 });
 
+// POST submit new screenshot
 app.post("/submit", authLimiter, upload.single("file"), async (req, res) => {
-  // authLimiter added to limit requests and prevent brute force attacks
   let { region, layer, lat, lng, easyMode, localKey, passwd } = req.body;
-  //XSS just in case
   region = validator.escape(region || "");
   layer = validator.escape(layer || "");
   lat = validator.toFloat(lat + "") || 0;
@@ -141,49 +145,34 @@ app.post("/submit", authLimiter, upload.single("file"), async (req, res) => {
     return res.status(403).send("Forbidden: Invalid credentials");
   }
   const file = req.file;
-
   if (!file) {
     return res.status(400).send("No file uploaded.");
   }
 
   const screenData = serialize({ imageData: file.buffer });
-  pushScreen(
-    screenData,
-    "MHW",
-    region,
-    layer,
-    lat,
-    lng,
-    easyMode,
-    localKey.slice(0, 3)
-  );
-  res.send("Screen submitted");
+
+  try {
+    const pool = await sql.connect(config);
+    await pool
+      .request()
+      .input("screenData", sql.VarBinary(sql.MAX), screenData)
+      .input("gameName", sql.NVarChar(50), "MHW")
+      .input("mapName", sql.NVarChar(50), region)
+      .input("layer", sql.NVarChar(50), layer)
+      .input("lat", sql.Float, lat)
+      .input("lng", sql.Float, lng)
+      .input("easyMode", sql.Bit, easyMode)
+      .input("user", sql.NVarChar(50), localKey.slice(0, 3))
+      .query(
+        `INSERT INTO screenshots (screenData, gameName, mapName, layer, lat, lng, easyMode, [user])
+         VALUES (@screenData, @gameName, @mapName, @layer, @lat, @lng, @easyMode, @user)`
+      );
+    res.send("Screen submitted");
+  } catch (err) {
+    console.error("Error inserting screenshot:", err);
+    res.status(500).send("Error inserting screenshot");
+  }
 });
 
 server.listen(3001);
 console.log("app Started on localhost:3001");
-
-const pushScreen = (
-  screenData,
-  gameName,
-  mapName,
-  layer,
-  lat,
-  lng,
-  easyMode,
-  localKey
-) => {
-  easyMode = easyMode === "true" ? 1 : 0;
-  const sql = `INSERT INTO screenshots (screenData, gameName, mapName, layer, lat, lng, easyMode, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-  db.query(
-    sql,
-    [screenData, gameName, mapName, layer, lat, lng, easyMode, localKey],
-    (err, result) => {
-      if (err) {
-        console.error("Error inserting screenshot:", err);
-        return;
-      }
-      console.log(result);
-    }
-  );
-};
