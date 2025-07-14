@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import GamePage from "./pages/GamePage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PositionSubmitSelector from "./pages/SubmitPosition";
+import NotFound404 from "./pages/NotFound404";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -26,7 +27,7 @@ function App() {
             <Route path="game" element={<GamePage />} />
             <Route path="easy" element={<GamePage easyMode />} />
             <Route path="submit" element={<PositionSubmitSelector />} />
-            <Route path="*" element={<p>error 404</p>} />
+            <Route path="*" element={<NotFound404 />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
