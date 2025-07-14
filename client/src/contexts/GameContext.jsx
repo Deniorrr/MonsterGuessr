@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
+import api from "../Api/ApiConfig";
 
 const GameContext = createContext();
 
@@ -26,21 +26,19 @@ export const GameProvider = ({ children }, props) => {
   const easyMode = props.easyMode || false;
 
   const getQuestions = async () => {
-    axios
-      .get("http://localhost:3001/screens" + (easyMode ? "easymode" : ""))
-      .then((response) => {
-        const recievedData = response.data.map((result) => {
-          return {
-            ...result,
-            location: {
-              lat: result.lat,
-              lng: result.lng,
-            },
-          };
-        });
-        setQuestions(recievedData);
-        selectQuestion(0, recievedData[0]);
+    api.get("screens" + (easyMode ? "easymode" : "")).then((response) => {
+      const recievedData = response.data.map((result) => {
+        return {
+          ...result,
+          location: {
+            lat: result.lat,
+            lng: result.lng,
+          },
+        };
       });
+      setQuestions(recievedData);
+      selectQuestion(0, recievedData[0]);
+    });
   };
 
   const selectQuestion = (questionIndex, _question = null) => {

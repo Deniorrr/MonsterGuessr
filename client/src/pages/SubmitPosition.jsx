@@ -24,8 +24,8 @@ import L from "leaflet";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { MuiFileInput } from "mui-file-input";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../Api/ApiConfig";
 
 function PositionSubmitSelector() {
   const navigate = useNavigate();
@@ -142,8 +142,8 @@ function PositionSubmitSelector() {
     formData.append("easyMode", easyMode);
     formData.append("localKey", myID);
     formData.append("passwd", passwd);
-    axios
-      .post("http://localhost:3001/submit", formData, {
+    api
+      .post("submit", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
