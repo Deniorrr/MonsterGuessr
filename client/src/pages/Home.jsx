@@ -3,7 +3,7 @@ import { List, ListItem, Backdrop } from "@mui/material";
 import { Link } from "react-router-dom";
 import BackgroundImage from "../assets/background_dark.jpg";
 import { useState } from "react";
-
+import GitHubIcon from "@mui/icons-material/GitHub";
 import logo from "../assets/logo.png";
 import Privacy from "../containers/Privacy";
 import HowToPlay from "../containers/HowToPlay";
@@ -144,11 +144,28 @@ function Home() {
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           borderTop: "2px solid #2e7e0b",
           boxShadow: "0px -2px 15px 0px #2e7e0b",
+          position: "relative",
         }}
       >
         <Typography variant={"body2"} fontWeight={"bold"}>
-          © 2024 MH Guessr
+          © 2025 MH Guessr
         </Typography>
+        <a
+          href="https://github.com/Deniorrr"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            position: "absolute",
+            right: 24,
+            top: "50%",
+            transform: "translateY(-50%)",
+            color: "white",
+            textDecoration: "none",
+          }}
+          aria-label="GitHub repository"
+        >
+          <GitHubIcon fontSize="large" />
+        </a>
       </Box>
       {/* Privacy backdrop */}
       <Backdrop

@@ -39,16 +39,19 @@ export default App;
 //MY KANBAN BOARD :)
 
 //NEXT:
-// secure the submit location page on backend!!!!!!!!!!
 
 //TODO:
-// add actual codes for admins
-//
-
-// test that thing
-// animations: after guessing
+// separate css
+// divide backend
 
 //DONE:
+// add loading screen to question image
+// add github link to footer
+// add favicon
+// test that thing
+// fix routing
+// secure the submit location page on backend!!!!!!!!!!
+// add actual codes for admins
 // display the image of the location while submitting
 // can drag image to submit location
 // dont change the map after submitting a location
@@ -62,3 +65,6 @@ export default App;
 // create GameContext for storing everything
 // show better info after guessing: distance, correct location and layer
 // change map to correct location after guessing
+
+//MAYBE:
+// animations: after guessing

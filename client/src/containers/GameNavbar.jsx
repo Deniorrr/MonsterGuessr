@@ -15,6 +15,7 @@ import GoodIcon from "@mui/icons-material/CheckBox";
 import WrongIcon from "@mui/icons-material/DisabledByDefault";
 import { useGame } from "../contexts/GameContext";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import BackgroundImage from "../assets/background_dark.jpg";
 
 GameNavbar.propTypes = {
   guess: PropTypes.func.isRequired,
@@ -75,7 +76,7 @@ function GameNavbar(props) {
   };
 
   const renderQuestion = () => {
-    if (question == null) return null;
+    //if (question == null) return null;
 
     return (
       <figure
@@ -83,19 +84,37 @@ function GameNavbar(props) {
         onMouseEnter={() => setIsImageHovered(true)}
         onMouseLeave={() => setIsImageHovered(false)}
       >
-        {isLoading ? (
-          <Box className="loading-text">
-            <Typography>Loading...</Typography>
-          </Box>
-        ) : null}
+        {isLoading || question == null ? (
+          <>
+            <Box className="loading-text">
+              <Typography>Loading...</Typography>
+            </Box>
+            <img
+              src={BackgroundImage}
+              alt="question"
+              style={{ width: "100%" }}
+              onClick={handleOpenBigImage}
+              onLoad={handleQuestionLoad}
+            />
+          </>
+        ) : (
+          <img
+            src={`data:image/png;base64,${question.imageData}`}
+            alt="question"
+            style={{ width: "100%" }}
+            onClick={handleOpenBigImage}
+            onLoad={handleQuestionLoad}
+          />
+        )}
 
-        <img
+        {/* <img
           src={`data:image/png;base64,${question.imageData}`}
           alt="question"
           style={{ width: "100%" }}
           onClick={handleOpenBigImage}
           onLoad={handleQuestionLoad}
-        />
+        /> */}
+
         <span className="magnifier-overlay">
           <ZoomInIcon fontSize="inherit" />
         </span>
