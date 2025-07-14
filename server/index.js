@@ -178,5 +178,7 @@ app.post("/submit", authLimiter, upload.single("file"), async (req, res) => {
   }
 });
 
-server.listen(3001);
-console.log("app Started on localhost:3001");
+const port = process.env.PORT || 3001;
+
+server.listen(port);
+console.log("app Started on localhost:port");
