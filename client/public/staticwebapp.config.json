@@ -1,11 +1,4 @@
 {
-  "routes": [
-    {
-      "route": "/api/*",
-      "allowedRoles": ["anonymous"],
-      "rewrite": "https://mhguessrbackend-ajgxfhgsgac0brg7.polandcentral-01.azurewebsites.net/"
-    }
-  ],
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": ["/assets/*", "/images/*", "/favicon.ico"]
