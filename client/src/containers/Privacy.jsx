@@ -16,7 +16,7 @@ function Privacy() {
       >
         <CloseIcon />
       </IconButton>
-      <Grid container xs={10}>
+      <Grid container item xs={10}>
         <Grid item>
           <Typography variant="h3">Privacy Policy</Typography>
 

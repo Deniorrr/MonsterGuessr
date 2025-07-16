@@ -8,7 +8,7 @@ function Privacy() {
       <IconButton className="close-button" aria-label="close" size="large">
         <CloseIcon />
       </IconButton>
-      <Grid container xs={10}>
+      <Grid container item xs={10}>
         <Grid item>
           <Typography variant="h3">How to Play</Typography>
           <Typography variant="h5">Goal of the game:</Typography>

@@ -1,0 +1,18 @@
+//general styles
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "mh_font";
+  src: local("mh_font"), url("./assets/fonts/mh_font.ttf") format("truetype");
+  font-weight: bold;
+}
+
+body {
+  background-color: #111;
+  color: #ddd;
+}

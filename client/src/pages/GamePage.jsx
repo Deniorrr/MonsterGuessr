@@ -2,6 +2,7 @@ import PositionSelector from "../containers/PositionSelector";
 import GameScore from "../containers/GameScore";
 import { GameProvider } from "../contexts/GameContext";
 import PropTypes from "prop-types";
+import "../styles/GamePage.scss"; // Assuming you have a GamePage.scss for specific styles
 
 GamePage.propTypes = {
   easyMode: PropTypes.bool,

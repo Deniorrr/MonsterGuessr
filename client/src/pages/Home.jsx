@@ -7,6 +7,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import logo from "../assets/logo.png";
 import Privacy from "../containers/Privacy";
 import HowToPlay from "../containers/HowToPlay";
+import "../styles/Home.scss"; // Assuming you have a Home.scss for specific styles
 
 function Home() {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
@@ -99,7 +100,7 @@ function Home() {
         <Grid container style={{ height: "100%" }}>
           <Grid item xs={6} display={"flex"} alignItems={"center"}>
             <nav>
-              <List dense={"dense"}>{generateNavItems()}</List>
+              <List dense>{generateNavItems()}</List>
             </nav>
           </Grid>
 

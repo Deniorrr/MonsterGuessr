@@ -1,0 +1,130 @@
+.container-wrapper {
+  li {
+    a,
+    span.navItem {
+      width: 100%;
+      background-image: linear-gradient(90deg, #222222bb 60%, #00000000);
+      padding: 0.5em;
+      margin: 5px 0;
+      border-radius: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.6rem;
+      transition-duration: 0.3s;
+    }
+
+    a:hover,
+    span.navItem:hover {
+      transform: translateX(25px);
+      scale: 1.2;
+    }
+  }
+  .serif_font {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.6rem;
+  }
+  .home-header-paper {
+    padding: 1rem;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 2px solid #2e7e0b;
+    box-shadow: 0px 2px 15px 0px #2e7e0b;
+    h3 {
+      text-align: center;
+      font-family: "Playfair Display", serif;
+      font-optical-sizing: auto;
+      font-weight: 400;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+    }
+    p {
+      font-size: 1.125rem;
+      margin-bottom: 20px;
+    }
+  }
+
+  .logo-wrapper {
+    margin: 20px 0;
+    img {
+      width: 7em;
+      height: auto;
+    }
+  }
+  .menu-backdrop-tab {
+    max-height: 100%;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 700px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.95);
+    border: 2px solid #2e7e0b;
+    box-shadow: 0px 2px 15px 0px #2e7e0b;
+    .close-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+    h3 {
+      margin: 32px 0;
+    }
+    h5 {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: 1.125rem;
+      margin-bottom: 20px;
+    }
+    li {
+      margin-bottom: 8px;
+      padding-left: 8px;
+    }
+    ol {
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      font-size: 1.125rem;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-left: 24px;
+      li {
+        margin-bottom: 12px;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

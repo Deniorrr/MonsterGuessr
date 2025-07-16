@@ -166,7 +166,7 @@ function PositionSelector() {
   };
   return (
     <Grid container style={{ height: "100%" }}>
-      <Grid row item xs={9}>
+      <Grid item xs={9}>
         {isLoading ? (
           <Box className="loading-text">
             <Typography variant="h5">Loading...</Typography>
@@ -193,7 +193,7 @@ function PositionSelector() {
           )}
         </MapContainer>
       </Grid>
-      <Grid row item xs={3} className="aside-bar">
+      <Grid item xs={3} className="aside-bar">
         <GameNavbar
           guess={guess}
           layer={layerIndex}

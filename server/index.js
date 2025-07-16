@@ -40,10 +40,10 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://mhguessr.com", // Replace with your actual domain
-];
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://mhguessr.com",
+// ];
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
@@ -60,6 +60,7 @@ app.use((req, res, next) => {
   //   );
   //   res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
   // }
+  // cors is handeled by hosting
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
