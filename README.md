@@ -40,13 +40,15 @@ This app does not collect any personal data from users, does not use cookies, an
 #### Affiliation
 
 This is a fan-made project and is not affiliated with Capcom or Geoguessr. We respect your privacy and are committed to protecting your personal information.
-<!-- LINKS  -->
 
 ## Roadmap
 - [x] Deploy the app
-- [ ] Add more questions/screenshots
+- [x] Add more questions/screenshots
+- [x] Upgrade some insufficient hosting services
 - [ ] Buy a domain
 - [ ] Let the gaming world know about this 😊 
+
+<!-- LINKS  -->
 
 [MHG-url]: https://yellow-ocean-053275803.2.azurestaticapps.net/
 
