@@ -13,7 +13,7 @@ export const useGame = () => {
   return context;
 };
 
-export const GameProvider = ({ children }, props) => {
+export const GameProvider = ({ children, easyMode = false }) => {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState([]);
@@ -22,8 +22,6 @@ export const GameProvider = ({ children }, props) => {
   const [lastAnswerInMeters, setLastAnswerInMeters] = useState(0);
 
   const QUESTION_AMOUNT = 5;
-
-  const easyMode = props.easyMode || false;
 
   const getQuestions = async () => {
     api.get("screens" + (easyMode ? "easymode" : "")).then((response) => {
