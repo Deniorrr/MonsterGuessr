@@ -43,14 +43,14 @@ This is a fan-made project and is not affiliated with Capcom or Geoguessr. We re
 
 ## Roadmap
 - [x] Deploy the app
-- [x] Add more questions/screenshots
 - [x] Upgrade some insufficient hosting services
-- [ ] Buy a domain
+- [x] Buy a domain
+- [ ] Add more questions/screenshots
 - [ ] Let the gaming world know about this 😊 
 
 <!-- LINKS  -->
 
-[MHG-url]: https://yellow-ocean-053275803.2.azurestaticapps.net/
+[MHG-url]: https://mhguessr.com/
 
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
