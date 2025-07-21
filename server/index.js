@@ -133,6 +133,10 @@ app.get("/screenseasymode", async (req, res) => {
   }
 });
 
+app.get("/ping", (req, res) => {
+  res.status(200).send("pong");
+});
+
 // POST submit new screenshot
 app.post("/submit", authLimiter, upload.single("file"), async (req, res) => {
   let { region, layer, lat, lng, easyMode, localKey, passwd } = req.body;

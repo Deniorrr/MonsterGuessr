@@ -41,10 +41,10 @@ export default App;
 //NEXT:
 
 //TODO:
-// separate css
-// divide backend
+// show location amount?
 
 //DONE:
+// separate css
 // add loading screen to question image
 // add github link to footer
 // add favicon
@@ -58,7 +58,7 @@ export default App;
 // create around 10 actual locations on ancient forest and wildspire waste
 // store the first 2 letters of userID in db : add column to db
 // preload all images on start to RAM
-// checked XSS, CSRF, CORS and SQL injection
+// checked XSS, CORS and SQL injection
 // hide submit location for normal users
 // proper scoring system
 // show result after guessing as a table selected location vs correct location
