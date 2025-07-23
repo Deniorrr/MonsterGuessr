@@ -285,14 +285,6 @@ function PositionSubmitSelector() {
             //FORM
           }
           <Box component={"nav"}>
-            <Typography
-              variant="h5"
-              margin={"10px"}
-              marginTop={"2em"}
-              textAlign={"center"}
-            >
-              Screenshot
-            </Typography>
             <Box display={"flex"} justifyContent={"center"}>
               <MuiFileInput
                 value={file}

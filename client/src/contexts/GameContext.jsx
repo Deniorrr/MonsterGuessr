@@ -68,7 +68,7 @@ export const GameProvider = ({ children, easyMode = false }) => {
     let finalScore = 0;
     if (selectedPosition.region == answer.mapName) {
       //if map is correct
-      let lostPoints = 500 * ((meters - 10) / 200); // up to 10 meters is 500 points, 200 meters is 0 points
+      let lostPoints = 500 * ((meters - 10) / 200); // up to 10 meters is 500 points, 210 meters is 0 points
       if (lostPoints < 0) {
         lostPoints = 0;
       }

@@ -133,8 +133,36 @@ app.get("/screenseasymode", async (req, res) => {
   }
 });
 
-app.get("/ping", (req, res) => {
-  res.status(200).send("pong");
+app.get("/", async (req, res) => {
+  try {
+    const pool = await sql.connect(config);
+    const result = await pool.request().query(`SELECT 1`);
+    return res.status(200).send("OK.");
+  } catch (err) {
+    console.log("Error pinging:", err);
+    return res.status(500).send("Error pinging");
+  }
+});
+
+app.get("/ping", async (req, res) => {
+  try {
+    const pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .query(`SELECT COUNT(*) AS count FROM screenshots`);
+    const count = result.recordset[0].count;
+    if (count === undefined) {
+      return res.status(500).send("Error fetching screenshot count");
+    }
+    if (count === 0) {
+      return res.status(404).send("No screenshots found");
+    }
+    console.log("Ping successful, screenshots count:", count);
+    res.status(200).send("pong: " + count);
+  } catch (err) {
+    console.log("Error pinging:", err);
+    res.status(500).send("Error pinging");
+  }
 });
 
 // POST submit new screenshot
