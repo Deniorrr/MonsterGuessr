@@ -14,22 +14,32 @@ to the one shown on the screen. There are 5 random screenshots per game and each
 
 ## Tech stack
 
-#### Frontend
-* [![React.js][React.js]][React-url]
-* [![Sass][Sass]][Sass-url]
-* [![Leaflet][Leaflet]][Leaflet-url]
-* [![MaterialUI][MaterialUI]][MaterialUI-url]
-#### Backend
-* [![Node.js][Node.js]][Node-url]
-* [![Express.js][Express.js]][Express-url]
-* [![SQL][SQL]][SQL-url]
-#### Hosting platform
-* [![Azure][Azure]][Azure-url]
+This project consists of:
 
-Project is fully deployed on Microsoft Azure ([here][MHG-url]). It consists of frontend app, backend server and a simple sql database for the screenshots and their data.
+### **Frontend**
+[![React.js][React.js]][React-url]
+[![Sass][Sass]][Sass-url]
+[![Leaflet][Leaflet]][Leaflet-url]
+[![MaterialUI][MaterialUI]][MaterialUI-url]
+  - Includes an **admin page** for submitting new map locations  
+  - Uses [Leaflet][Leaflet-url] to display and manage interactive maps  
+  - Preloads map images into memory (RAM) for instant transitions
 
-The backend has been checked for CORS vulnerability, SQL injection, XSS attacks and other. 
-Frontend contains an admin page for submitting new locations to the database. The game page preloads the map images to RAM, so they load immediately after changing. The maps are managed using [Leaflet][Leaflet-url]. 
+### **Backend**
+[![Node.js][Node.js]][Node-url]
+[![Express.js][Express.js]][Express-url]
+  - Provides API endpoints for game logic and admin features  
+  - Secured against **CORS**, **SQL injection**, **XSS**, and related vulnerabilities
+
+### **Database**
+[![SQL][SQL]][SQL-url]
+  - Stores map screenshots and their metadata
+
+### **Hosting platform**
+[![Azure][Azure]][Azure-url]
+  - **Azure App Services** for serving the frontend and backend
+  - **Azure SQL Database** for persistent storage
+  - **Public URL**: [MH Guessr][MHG-url]
 
 ## Privacy
 
@@ -45,7 +55,7 @@ This is a fan-made project and is not affiliated with Capcom or Geoguessr. We re
 - [x] Deploy the app
 - [x] Upgrade some insufficient hosting services
 - [x] Buy a domain
-- [ ] Add more questions/screenshots
+- [x] Add more questions/screenshots
 - [ ] Let the gaming world know about this 😊 
 
 <!-- LINKS  -->
