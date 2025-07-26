@@ -1,6 +1,6 @@
 # Monster Guessr
 
-[MH Guessr][MHG-url] is an online game, where players can test their knowledge about the locations from the game [Monster Hunter World](https://www.monsterhunter.com/world/).
+[MH Guessr][MHG-url] is a web game, where players can test their knowledge about the locations from the game [Monster Hunter World](https://www.monsterhunter.com/world/).
 Player recieves a series of screenshots, and the goal of the game is to guess the exact position of taken images.
 
 App inspired by https://www.geoguessr.com/.
